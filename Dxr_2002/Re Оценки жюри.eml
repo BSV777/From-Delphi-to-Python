@@ -1,0 +1,70 @@
+Return-Path: <root@falcon.lipetsk.ru>
+X-Sieve: cmu-sieve 2.0
+Received: from hpmail1.netservers.net ([209.196.128.163]:19470 "HELO
+	qmsql.netservers.net") by falcon.lipetsk.ru with SMTP
+	id <S623675AbSEBMDg>; Thu, 2 May 2002 16:03:36 +0400
+Received: (qmail 21803 invoked from network); 2 May 2002 12:03:27 -0000
+Received: from unknown (HELO telnov) (212.114.24.121)
+  by hpmail1.netservers.net with SMTP; 2 May 2002 12:03:27 -0000
+Message-ID: <000d01c1f1d1$5e913cc0$3d50a8c0@corp.devexpress.com>
+Reply-To: "Andrew Telnov" <AndrewT@devexpress.com>
+From:	"Andrew Telnov" <andrewt@devexpress.com>
+To:	"Sergey V.Baikov" <sergey.baikov@lipetsk.ru>
+References: <003101c1efae$b6695970$8e96a8c0@bsv>
+Subject: =?koi8-r?B?UmU6IO/Dxc7LySDWwNLJ?=
+Date:	Thu, 2 May 2002 05:03:25 -0700
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="koi8-r"
+Content-Transfer-Encoding: 8bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+
+Привет,
+1) Нет классов с которыми было бы удобно работать и в последствие расширять
+функцианальность
+2) Большинство методов имеют огромную длинну и их понять чрезвычайно трудно.
+
+Это главные замечания
+
+С уважением,
+
+Андрей Тельнов
+CTO Developer Express Russia
+www.dxrussia.ru
+
+----- Original Message -----
+From: "Sergey V.Baikov" <sergey.baikov@lipetsk.ru>
+To: <AndrewT@devexpress.com>; "Fox" <lis@aqa.com.ru>
+Sent: Monday, April 29, 2002 11:27 AM
+Subject: Fw: Оценки жюри
+
+
+> > Здравствуйте, Сергей.
+> >
+> > Вам лучше всего обратиться к членам жюри :)
+> > Cергей В. Лисицын (Automated QA Corp.) lis@aqa.com.ru
+> > Андрей Тельнов (Developer Express) AndrewT@devexpress.com
+> >
+> > С уважением,
+> > Руслан Мороз
+> >
+> > > Здравствуйте, Руслан и все члены жюри
+> > >
+> > > Не могли бы организаторы конкурса прокомментировать такую низкую
+оценку
+> > > (2,2), поставленную мне (#5 "bsv") за качество кода. Это связано
+только
+> с
+> > > тем, что я не создаю собственные классы, а пользуюсь стандартным, или
+> есть
+> > > другие причины? Над чем следует поработать?
+> > >
+> > > С уважением,
+> > > Сергей Байков
+>
+>
+>
+

@@ -1,0 +1,27 @@
+.top {
+	COLOR: #1364a9; FONT-FAMILY: Geneva, Arial, Helvetica, sans-serif; FONT-SIZE: 11pt; FONT-WEIGHT: bold
+}
+.error {
+	COLOR: #c03404; FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 9pt; FONT-WEIGHT: bold
+}
+.reg {
+	COLOR: #d95f08; FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 8pt; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.h {
+	COLOR: #5f89be; FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10pt; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+P {
+	COLOR: #404040; FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 9pt; MARGIN-BOTTOM: 5px; MARGIN-TOP: 0px
+}
+UL {
+	COLOR: #404040; FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 9pt
+}
+OL {
+	COLOR: #404040; FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 9pt
+}
+INPUT {
+	COLOR: #404040; FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 8pt
+}
+.header {
+	BACKGROUND-COLOR: #dce1ef; COLOR: #1364a9; FONT-FAMILY: Geneva, Arial, Helvetica, sans-serif; FONT-WEIGHT: bold; PADDING-BOTTOM: 1px; PADDING-LEFT: 15px; PADDING-RIGHT: 5px; PADDING-TOP: 1px
+}

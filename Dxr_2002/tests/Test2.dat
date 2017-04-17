@@ -1,0 +1,21 @@
+<Button left="15"; top="15"; height="45"; width="525"; Caption=" ">
+<Button left="15"; top="60"; height="435"; width="45"; Caption=" ">
+<Button left="495"; top="60"; height="390"; width="45"; Caption=" ">
+<Button left="75"; top="75"; height="135"; width="45"; Caption=" ">
+<Button left="120"; top="75"; height="45"; width="120"; Caption=" ">
+<Button left="255"; top="75"; height="45"; width="45"; Caption=" ">
+<Button left="315"; top="75"; height="315"; width="45"; Caption=" ">
+<Button left="360"; top="75"; height="45"; width="120"; Caption=" ">
+<Button left="435"; top="120"; height="90"; width="45"; Caption=" ">
+<Button left="255"; top="135"; height="255"; width="45"; Caption=" ">
+<Button left="75"; top="210"; height="45"; width="165"; Caption=" ">
+<Button left="360"; top="210"; height="45"; width="120"; Caption=" ">
+<Button left="195"; top="255"; height="135"; width="45"; Caption=" ">
+<Button left="360"; top="255"; height="30"; width="45"; Caption=" ">
+<Button left="375"; top="285"; height="30"; width="45"; Caption=" ">
+<Button left="405"; top="315"; height="30"; width="45"; Caption=" ">
+<Button left="75"; top="345"; height="45"; width="120"; Caption=" ">
+<Button left="435"; top="345"; height="45"; width="45"; Caption=" ">
+<Button left="75"; top="405"; height="30"; width="405"; Caption=" ">
+<Button left="60"; top="450"; height="45"; width="480"; Caption=" ">
+<Label left="15"; top="510"; height="30"; width="525"; Text="Тестовая страница №2">
