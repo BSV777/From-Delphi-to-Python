@@ -183,8 +183,6 @@ class MainWindow(QtGui.QMainWindow):  #Объявляем класс MainWindow,
 
 #Создание тулбара
 #------------------------------------------------------------------------------    
-#TODO: 1. Подключить правильные иконки на кнопки
-
         a_select = QtGui.QAction(QtGui.QIcon('icons/obj.png'), u"Выбор объекта", self)
         a_select.setStatusTip(u"Редактировать существующий объект")    
         self.connect(a_select, QtCore.SIGNAL('triggered()'), self._select)
