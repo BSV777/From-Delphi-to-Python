@@ -1,0 +1,39 @@
+P {
+	FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 10pt
+}
+H1 {
+	FONT-FAMILY: Arial; FONT-SIZE: 16pt
+}
+H2 {
+	FONT-FAMILY: Arial; FONT-SIZE: 14pt; FONT-WEIGHT: bold
+}
+H3 {
+	FONT-FAMILY: Arial; FONT-SIZE: 12pt; FONT-WEIGHT: bold
+}
+H4 {
+	FONT-FAMILY: Arial; FONT-SIZE: 11pt; FONT-WEIGHT: bold
+}
+UL {
+	FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 10pt
+}
+LI {
+	FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 10pt
+}
+A {
+	FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 10pt
+}
+.black {
+	COLOR: black; FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 9pt; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+SAMP {
+	FONT-FAMILY: "Courier New"; FONT-SIZE: 10pt; TEXT-DECORATION: none
+}
+.a {
+	MARGIN-BOTTOM: 20px; MARGIN-LEFT: 10px
+}
+.b {
+	MARGIN-BOTTOM: 20px; MARGIN-LEFT: 30px
+}
+.color {
+	BACKGROUND: lightyellow; BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; BORDER-RIGHT: black 1px solid; BORDER-TOP: black 1px solid; PADDING-LEFT: 3px; WIDTH: 100%
+}

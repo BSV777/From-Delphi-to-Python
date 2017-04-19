@@ -1,0 +1,7 @@
+<button LEFT="250"; WIDTH="100"; TOP="132"; HEIGHT="32"; CAPTION="BUTTON1">
+<Button Left ="12"; Width ="89"; Top ="73"; Height ="23"; Caption ="Button2">
+<BUTTON left = "84"; width ="109"; top = "192"; height = "41"; caption = "button3">
+<label LEFT="179"; WIDTH = "93"; TOP="45"; HEIGHT="26"; TEXT="Label1">
+<Label LEFT="37"; WIDTH="88"; TOP="253"; HEIGHT="28";  Text ="Label2">
+<TextEdit LEFT="40"; WIDTH="99"; TOP="144"; TEXT="text1">
+<TEXTEDIT Left="277"; Width="80"; Top="212"; Text="text2">

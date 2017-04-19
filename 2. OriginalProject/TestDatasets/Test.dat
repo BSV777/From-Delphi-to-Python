@@ -1,0 +1,15 @@
+<Button Left="231"; Top="148"; Height="25"; Width="75"; Caption="Button_1">
+
+<Edit Left="198"; Top="49"; Height="24"; Width="121"; Text="Edit_1">
+
+<Label Left="28"; Top="59"; Height="16"; Width="140"; Text="Label_2">
+
+<Edit Left="240"; Top="100"; Height="24"; Width="121"; Text="Edit_2">
+
+<Label Left="99"; Top="131"; Height="17"; Width="65"; Text="Label_1">
+
+<Edit Left="263"; Top="251"; Height="24"; Width="121"; Text="Edit_3">
+
+<Button Left="119"; Top="157"; Height="25"; Width="75"; Caption="Button_2">
+
+
