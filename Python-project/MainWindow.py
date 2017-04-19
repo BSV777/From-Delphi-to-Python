@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-#from PyQt4 import QtCore, QtGui
+from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -10,10 +10,6 @@ class MainWindow(QtGui.QMainWindow):  #Объявляем класс MainWindow,
 
 #Внутренние процедуры класса
 #------------------------------------------------------------------------------
-    def _createbt(self):
-        print("_createbt") #DEBUG: Отладочный вывод
-        self.label2= QtGui.QLabel(u"88888888") # Создали объект надпись класса QLabel                
-        self.label2.move(10, 90)
 
 #TODO: Работать здесь!
 #------------------------------------------------------------------------------
@@ -39,6 +35,11 @@ class MainWindow(QtGui.QMainWindow):  #Объявляем класс MainWindow,
         #    print('visible') 
         #else:
         #    print('not')
+
+    def _createbt(self):
+        print("_createbt") #DEBUG: Отладочный вывод
+        self.label2= QtGui.QLabel(u"88888888") # Создали объект надпись класса QLabel                
+        self.label2.move(10, 90)
 
     def _createed(self):
         print("_createed") #DEBUG: Отладочный вывод
