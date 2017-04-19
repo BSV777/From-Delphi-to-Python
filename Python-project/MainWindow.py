@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtGui import QFont
+#from PyQt4 import QtCore, QtGui
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
 class MainWindow(QtGui.QMainWindow):  #Объявляем класс MainWindow, наследующий свойства класса QMainWindow модуля QtGui
 
@@ -19,6 +20,25 @@ class MainWindow(QtGui.QMainWindow):  #Объявляем класс MainWindow,
 
     def _select(self):
         print("_select") #DEBUG: Отладочный вывод
+        print("test1")
+        #scrollArea = QtGui.QScrollArea(self)
+        label2 = QtGui.QLabel(u"Надпись2", self) # Создали объект надпись класса QLabel
+        self.setWidget(label2)
+        label2.setParent = self
+        label2.move(80, 80)
+        print("test2")
+        #scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        #scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        #scrollArea.setParent(self)
+        #label2.setParent(scrollArea)
+        #scrollArea.show()
+        #scrollArea.setVisible(True)
+        #print(scrollArea.sizes())
+        
+        #if scrollArea.isVisible(): 
+        #    print('visible') 
+        #else:
+        #    print('not')
 
     def _createed(self):
         print("_createed") #DEBUG: Отладочный вывод
@@ -64,8 +84,15 @@ class MainWindow(QtGui.QMainWindow):  #Объявляем класс MainWindow,
 
         self.setFont(QFont('SansSerif', 9)) #Устанавливаем шрифт
         
+        
+        
 # TODO: 1. Добавить скроллбары
 #------------------------------------------------------------------------------
+
+        
+        #scrollArea.setWidget(label2)
+        #self.setWidget(self.scrollArea)
+        
         #self.scrollLayout = QtGui.QFormLayout()
 
         #scrollWidget = QtGui.QWidget() # cначала создаём сам виджет
