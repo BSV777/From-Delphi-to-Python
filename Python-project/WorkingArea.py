@@ -1,6 +1,11 @@
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+
 
 class dlgTest(QScrollArea):
     def __init__(self, parent = None):
