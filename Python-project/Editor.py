@@ -20,9 +20,22 @@ if __name__ == "__main__" :
     # print (namespace)
     #print ("Привет, {}!".format (namespace.name) )
 
+    # if ParamCount > 1 then
+    # begin
+    # {$I -}
+    # AssignFile(F, ParamStr(1));
+    # Reset(F);
+    # CloseFile(F);
+    # {$I +}
+    # if IOResult=0 then
+    # begin
+    # OpenTextFile(ParamStr(1), Prop_i, Prop_s);
+    # WriteHTMLFile(ParamStr(2), Prop_i, Prop_s);
+    # end;
+    # end else Application.CreateForm(TMainForm, MainForm);
 
 
-    MainForm = MainWindow() # Создаем объект MainForm - экземпляр класса MainWindow()    
+MainForm = MainWindow() # Создаем объект MainForm - экземпляр класса MainWindow()
     MainForm.setWindowTitle(u"Editor -") #Заголовок окна
     MainForm.resize(450, 250)  #Установили размеры окна
     MainForm.show() # Отображаем окно
