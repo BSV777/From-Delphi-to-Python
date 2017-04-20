@@ -62,27 +62,44 @@ class MainWindow(QMainWindow, BaseWindow.Ui_BaseWindow):
 
     def _about(self):
         print("_about")  # DEBUG: Отладочный вывод
+        msgBox = QMessageBox()
+        msgBox.setText(u"--------------    О программе   --------------")
+        msgBox.setInformativeText(u"Редактор визуального размещения компонентов")
+        ret = msgBox.exec_()
 
     def _create(self):
         print("_create")  # DEBUG: Отладочный вывод
 
     def _open(self):
-        print("_open")  # DEBUG: Отладочный вывод
+        fileName = QFileDialog.getOpenFileName(self, u"Открыть файл")
 
     def _save(self):
-        print("_save")  # DEBUG: Отладочный вывод
+        fileIsNew = True  # Сделать проверку, что файл не был сохранен
+        if fileIsNew:
+            self._saveas()
+        else:
+            pass  # Здесь сделать сохранение в файл
 
     def _saveas(self):
-        print("_saveas")  # DEBUG: Отладочный вывод
+        fileName = QFileDialog.getOpenFileName(self, u"Сохранить файл как")
 
     def _saveasweb(self):
-        print("_saveasweb")  # DEBUG: Отладочный вывод
+        fileName = QFileDialog.getOpenFileName(self, u"Сохранить файл как Web-страницу")
 
     def _openasweb(self):
         print("_openasweb")  # DEBUG: Отладочный вывод
 
     def _exit(self):
-        print("_exit")  # DEBUG: Отладочный вывод
+        msgBox = QMessageBox()
+        msgBox.setText(u"Документ не сохранен")
+        msgBox.setInformativeText(u"Сохранить изменения?")
+        msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        msgBox.setDefaultButton(QMessageBox.Save)
+        ret = msgBox.exec_()
+        if ret == QMessageBox.Save:
+            print("need to save")
+        elif ret == QMessageBox.Discard:
+            exit(0)
 
     # ------------------------------------------------------------------------------
 
