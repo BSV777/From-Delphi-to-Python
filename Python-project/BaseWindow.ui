@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>BaseWindow</class>
+    <widget class="QMainWindow" name="BaseWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>800</width>
+                <height>600</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>MainWindow</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QWidget" name="verticalLayoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>30</x>
+                        <y>30</y>
+                        <width>341</width>
+                        <height>441</height>
+                    </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                    <item>
+                        <widget class="QLabel" name="label">
+                            <property name="text">
+                                <string>TextLabel</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <spacer name="verticalSpacer">
+                            <property name="orientation">
+                                <enum>Qt::Vertical</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>20</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </item>
+                </layout>
+            </widget>
+        </widget>
+        <widget class="QMenuBar" name="menubar">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>800</width>
+                    <height>27</height>
+                </rect>
+            </property>
+            <widget class="QMenu" name="m_file">
+                <property name="title">
+                    <string>&amp;Файл</string>
+                </property>
+                <addaction name="a_create"/>
+                <addaction name="a_open"/>
+                <addaction name="separator"/>
+                <addaction name="a_save"/>
+                <addaction name="a_saveas"/>
+                <addaction name="a_saveasweb"/>
+                <addaction name="separator"/>
+                <addaction name="a_openasweb"/>
+                <addaction name="separator"/>
+                <addaction name="a_exit"/>
+            </widget>
+            <widget class="QMenu" name="m_object">
+                <property name="title">
+                    <string>&amp;Объект</string>
+                </property>
+                <addaction name="a_createbt"/>
+                <addaction name="a_createed"/>
+                <addaction name="a_createlb"/>
+                <addaction name="separator"/>
+                <addaction name="a_delobj"/>
+            </widget>
+            <widget class="QMenu" name="m_help">
+                <property name="title">
+                    <string>&amp;Справка</string>
+                </property>
+                <addaction name="a_about"/>
+            </widget>
+            <addaction name="m_file"/>
+            <addaction name="m_object"/>
+            <addaction name="m_help"/>
+        </widget>
+        <widget class="QStatusBar" name="statusbar"/>
+        <action name="a_create">
+            <property name="text">
+                <string>Созд&amp;ать</string>
+            </property>
+            <property name="statusTip">
+                <string>Создать схему размещения</string>
+            </property>
+            <property name="shortcut">
+                <string>Ctrl+N</string>
+            </property>
+        </action>
+        <action name="a_open">
+            <property name="text">
+                <string>&amp;Открыть</string>
+            </property>
+            <property name="statusTip">
+                <string>Открыть схему размещения объектов</string>
+            </property>
+            <property name="shortcut">
+                <string>Ctrl+O</string>
+            </property>
+        </action>
+        <action name="a_save">
+            <property name="text">
+                <string>&amp;Сохранить</string>
+            </property>
+            <property name="statusTip">
+                <string>Сохранить схему размещения объектов</string>
+            </property>
+            <property name="shortcut">
+                <string>Ctrl+S</string>
+            </property>
+        </action>
+        <action name="a_saveas">
+            <property name="text">
+                <string>Сохранить &amp;как</string>
+            </property>
+            <property name="statusTip">
+                <string>Сохранить схему размещения объектов как...</string>
+            </property>
+        </action>
+        <action name="a_saveasweb">
+            <property name="text">
+                <string>Сохранить как Web-страни&amp;цу</string>
+            </property>
+            <property name="statusTip">
+                <string>Сохранить схему размещения объектов как Web-страницу</string>
+            </property>
+        </action>
+        <action name="a_openasweb">
+            <property name="text">
+                <string>Открыть как &amp;Web-страницу</string>
+            </property>
+            <property name="statusTip">
+                <string>Открыть схему размещения объектов как Web-страницу</string>
+            </property>
+        </action>
+        <action name="a_exit">
+            <property name="text">
+                <string>В&amp;ыход</string>
+            </property>
+            <property name="statusTip">
+                <string>Выход из программы</string>
+            </property>
+            <property name="shortcut">
+                <string>Ctrl+Q</string>
+            </property>
+        </action>
+        <action name="a_createbt">
+            <property name="icon">
+                <iconset>
+                    <normaloff>icons/bt.png</normaloff>icons/bt.png
+                </iconset>
+            </property>
+            <property name="text">
+                <string>Создать &amp;кнопку</string>
+            </property>
+            <property name="statusTip">
+                <string>Создать кнопку на форме</string>
+            </property>
+        </action>
+        <action name="a_createed">
+            <property name="icon">
+                <iconset>
+                    <normaloff>icons/ed.png</normaloff>icons/ed.png
+                </iconset>
+            </property>
+            <property name="text">
+                <string>Создать &amp;поле ввода</string>
+            </property>
+            <property name="statusTip">
+                <string>Создать поле ввода на форме</string>
+            </property>
+        </action>
+        <action name="a_createlb">
+            <property name="icon">
+                <iconset>
+                    <normaloff>icons/lb.png</normaloff>icons/lb.png
+                </iconset>
+            </property>
+            <property name="text">
+                <string>Создать &amp;надпись</string>
+            </property>
+            <property name="statusTip">
+                <string>Создать надпись на форме</string>
+            </property>
+        </action>
+        <action name="a_delobj">
+            <property name="text">
+                <string>У&amp;далить объект</string>
+            </property>
+            <property name="statusTip">
+                <string>Удалить выбранный объект</string>
+            </property>
+            <property name="shortcut">
+                <string>Del</string>
+            </property>
+        </action>
+        <action name="a_about">
+            <property name="text">
+                <string>&amp;О программе</string>
+            </property>
+            <property name="statusTip">
+                <string>Сведения о программе</string>
+            </property>
+            <property name="shortcut">
+                <string>F1</string>
+            </property>
+        </action>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>
