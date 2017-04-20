@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
-eval "python /usr/lib/python2.7/dist-packages/PyQt4/uic/pyuic.py BaseWindow.ui > BaseWindow.py"
+eval "python /usr/lib/python2.7/dist-packages/PyQt4/uic/pyuic.py $1 > ${1/%ui/py}"
 
