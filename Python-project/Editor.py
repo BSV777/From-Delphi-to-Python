@@ -1,44 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import sys
-import argparse
+
+import mParserTextFile  # Импортируем модули с функциями ParserTextFile и WriteHTMLFile
+import mWriteHTMLFile
 from MainWindow import *
 
-def createParser ():
-    parser = argparse.ArgumentParser()
-    parser.add_argument ('name', nargs='?', default='мир')
-    return parser
-
-
-
 if __name__ == "__main__" :
-    app = QtGui.QApplication(sys.argv) # Создаем объект app (приложение) - экземпляр класса QApplication
+    if len(sys.argv) > 1:  # Если переданы параметры командной строки, то работаем в консоли, форму не создаем
+        inputFileName = sys.argv[1]
+        if len(sys.argv) > 2:  # Выходной файл задан
+            outputFileName = sys.argv[2]
+        else:  # Выходной файл не задан - формируем имя на основе входного файла
+            dir = os.path.dirname(inputFileName)
+            name, ext = os.path.splitext(os.path.basename(inputFileName))
+            outputFileName = os.path.join(dir, name + ".htm")
 
-    #parser = createParser()
-    #namespace = parser.parse_args (sys.argv[1:]) 
-    # print (namespace)
-    #print ("Привет, {}!".format (namespace.name) )
-
-    # if ParamCount > 1 then
-    # begin
-    # {$I -}
-    # AssignFile(F, ParamStr(1));
-    # Reset(F);
-    # CloseFile(F);
-    # {$I +}
-    # if IOResult=0 then
-    # begin
-    # OpenTextFile(ParamStr(1), Prop_i, Prop_s);
-    # WriteHTMLFile(ParamStr(2), Prop_i, Prop_s);
-    # end;
-    # end else Application.CreateForm(TMainForm, MainForm);
-
-
-MainForm = MainWindow() # Создаем объект MainForm - экземпляр класса MainWindow()
-    MainForm.setWindowTitle(u"Editor -") #Заголовок окна
-    MainForm.resize(450, 250)  #Установили размеры окна
-    MainForm.show() # Отображаем окно
-  
-    sys.exit(app.exec_()) #Запускаем цикл обработки событий объекта app (приложение)
-    
+        if os.path.exists(inputFileName):  # Если входной файл существует вызываем парсер и формирование HTML
+            array = mParserTextFile.ParserTextFile(inputFileName)
+            mWriteHTMLFile.WriteHTMLFile(outputFileName, array)
+        else:
+            print("Can't open file: " + inputFileName)
+    else:
+        app = QtGui.QApplication(sys.argv)  # Создаем объект app (приложение) - экземпляр класса QApplication
+        MainForm = MainWindow()  # Создаем объект MainForm - экземпляр класса MainWindow()
+        MainForm.setWindowTitle(u"Editor -")  # Заголовок окна
+        MainForm.resize(450, 250)  # Установили размеры окна
+        MainForm.show()  # Отображаем окно
+        sys.exit(app.exec_())  # Запускаем цикл обработки событий объекта app (приложение)

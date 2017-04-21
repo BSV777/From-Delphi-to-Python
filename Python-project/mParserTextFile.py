@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+def ParserTextFile(fileName):
+    pass
 
 # type
 #   A_i=array of array of integer;

@@ -5,11 +5,11 @@ from PyQt4 import QtGui
 
 from PyQt4.QtGui import *
 
-import BaseWindow  # Импортируем базовую форму, нарисованную в дизайнере
+import mBaseWindow  # Импортируем базовую форму, нарисованную в дизайнере
 
 
 # Класс MainWindow, унаследованный от QMainWindow и Ui_BaseWindow - из дизайнера
-class MainWindow(QMainWindow, BaseWindow.Ui_BaseWindow):
+class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
@@ -103,9 +103,9 @@ class MainWindow(QMainWindow, BaseWindow.Ui_BaseWindow):
 
     # ------------------------------------------------------------------------------
 
-    def __init__(self, parent=None):  # Объявляем конструктор класса MyWindow
-        QtGui.QWidget.__init__(self,
-                               parent)  # Сначала выполняем действия, предусмотренные конструктором родительского класса
+    def __init__(self):  # Объявляем конструктор класса MyWindow
+        super(MainWindow,
+              self).__init__()  # Сначала выполняем действия, предусмотренные конструктором родительского класса
         self.setupUi(self)  # Вызов метода, унаследованного от Ui_BaseWindow для инициализации виджетов класса
 
         self.setFont(QFont('SansSerif', 9))  # Устанавливаем шрифт
