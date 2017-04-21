@@ -19,7 +19,28 @@ if __name__ == "__main__" :
             outputFileName = os.path.join(dir, name + ".htm")
 
         if os.path.exists(inputFileName):  # Если входной файл существует вызываем парсер и формирование HTML
-            array = mParserTextFile.ParserTextFile(inputFileName)
+            typ = {"Button": 1, "TextEdit": 2, "Label": 3}
+            array = [{}]  # Список объектов с их свойствами. Каждый объект представлен словарем
+            array.append({})  # Создадим нулевой элемент списка - заглушку, поскольку в программе нумерация с 1
+
+            # Пример:
+            # array.append({"text" : u"Текст", "typ" : typ["TextEdit"], "left" : 0, "top" : 0,
+            #              "width" : 0, "height" : 0, "colspan" : 0, "rowspan" : 0})
+            # array[3]["colspan"] = 7
+
+            # В проекте на Delphi это было так:
+            #   Prop_s:A_s; //Вектор строковых свойств объектов
+            #   Prop_i:A_i; //Матрица числовых свойств объектов, назначение столбцов:
+            #               //0 - тип объекта: Button - 1, TextEdit - 2, Label - 3
+            #               //1 - свойство left
+            #               //2 - свойство top
+            #               //3 - свойство width
+            #               //4 - свойство height
+            #               //5 - значение COLSPAN для ячейки HTML
+            #               //6 - значение ROWSPAN для ячейки HTML
+
+            if mParserTextFile.ParserTextFile(inputFileName, array):  # Ошибки были записаны в лог
+                print("Input file contains errors. See log file: " + os.path.join(dir, name + ".log"))
             mWriteHTMLFile.WriteHTMLFile(outputFileName, array)
         else:
             print("Can't open file: " + inputFileName)
