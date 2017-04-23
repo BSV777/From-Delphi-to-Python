@@ -1,3 +1,8 @@
+
+# <Button left="10"; top="10"; bottom="100"; right="100"; Caption="Press me!">
+# <Label left="110"; top="110"; bottom="200"; right="200"; Text="Look at me!">
+
+
 Если элементы списка вводяться в одной строке, разделенные пробелами, то можно использовать метод строки split(), возвращающий список строк, разрезав исходную строку на части по пробелам. Пример:
 A = input().split()
 Если при запуске этой программы ввести строку 1 2 3, то список A будет равен [‘1’, ‘2’, ‘3’]. 
@@ -59,9 +64,9 @@ S.find('e')
 Аналогично, метод rfind возвращает индекс последнего вхождения данной строки (“поиск справа”).
 Если вызвать метод find с тремя параметрами S.find(T, a, b), то поиск будет осуществляться начиная с символа с номером a до символа с номером b (не включительно). Если указать только два параметра S.find(T, a), то поиск будет осуществляться, начиная с a-го элемента до конца строки. Метод S.find(T, a, b) возвращает индекс в строке S, а не индекс относительно начала среза.
 
-ifPos('<button',LowerCase(LWork))<>0: 		if LWork.lower().find('<button') <> -1
-ifPos('<label',LowerCase(LWork))<>0:		if LWork.lower().find('<label') <> -1
-ifPos('<textedit',LowerCase(LWork))<>0:		if LWork.lower().find('<textedit') <> -1
+ifPos('<button',LowerCase(LWork))<>0: 		if LWork.lower().find('<button') <> -1:
+ifPos('<label',LowerCase(LWork))<>0:		if LWork.lower().find('<label') <> -1:
+ifPos('<textedit',LowerCase(LWork))<>0:		if LWork.lower().find('<textedit') <> -1:
 n=Pos('caption="',LowerCase(LWork))		n = LWork.lower().find('caption="')
 n=Pos('height="',LowerCase(LWork))		n = LWork.lower().find('height="')
 n=Pos('left="',LowerCase(LWork))		n = LWork.lower().find('left="')
