@@ -1,7 +1,0 @@
-<button left="60"; width="71"; top="54"; height="41"; caption="Button">
-<button left="94"; width="70"; top="62"; height="60"; caption="Button">
-<button left="41"; width="143"; top="163"; height="54"; caption="Button">
-<button left="147"; width="132"; top="176"; height="69"; caption="Button">
-<button left="211"; width="133"; top="24"; height="26"; caption="Button">
-<button left="228"; width="119"; top="94"; height="57"; caption="Button">
-

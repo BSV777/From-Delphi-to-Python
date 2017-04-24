@@ -30,7 +30,7 @@ S[-1]=='o', S[-2]=='l', S[-3]=='l', S[-4]=='e', S[-5]=='H'.
 Если опустить второй параметр (но поставить двоеточие), то срез берется до конца строки. Например, чтобы удалить из строки первый символ (его индекс равен 0, то есть взять срез, начиная с символа с индексом 1), то можно взять срез S[1:], аналогично если опустить первый параметр, то срез берется от начала строки. То есть удалить из строки последний символ можно при помощи среза S[:-1]. Срез S[:] совпадает с самой строкой S.
 
 L1=Copy(L1,1,Pos('"',L1)-1)	L1 = L1[:L1.find('"') - 1]
-LWork=Copy(LWork,1,n)		LWork = LWork[:n]
+lineWork=Copy(lineWork,1,n)		lineWork = lineWork[:n]
 
 ----------------------------------------------------------------------------
 
@@ -49,9 +49,9 @@ Delete(L1,1,Pos('left="',LowerCase(L1))+5)	L1 = L1[:L1.lower().find('left="') + 
 Delete(L1,1,Pos('text',LowerCase(L1))+3)	L1 = L1[:L1.lower().find('text') + 3]
 Delete(L1,1,Pos('top="',LowerCase(L1))+4)	L1 = L1[:L1.lower().find('top="') + 4]
 Delete(L1,1,Pos('width="',LowerCase(L1))+6)	L1 = L1[:L1.lower().find('width="') + 6]
-Delete(LWork,1,n-1)				LWork = LWork[:n - 1]
-Delete(LWork,n,1)				LWork = LWork[n - 1:n]
-Delete(LWork,n+1,1)				LWork = LWork[n:n + 1]
+Delete(lineWork,1,n-1)				lineWork = lineWork[:n - 1]
+Delete(lineWork,n,1)				lineWork = lineWork[n - 1:n]
+Delete(lineWork,n+1,1)				lineWork = lineWork[n:n + 1]
 
 -----------------------------------------------------------------------------
 Функция Pos ( Substr: string; S: string ): Integer;
@@ -64,18 +64,18 @@ S.find('e')
 Аналогично, метод rfind возвращает индекс последнего вхождения данной строки (“поиск справа”).
 Если вызвать метод find с тремя параметрами S.find(T, a, b), то поиск будет осуществляться начиная с символа с номером a до символа с номером b (не включительно). Если указать только два параметра S.find(T, a), то поиск будет осуществляться, начиная с a-го элемента до конца строки. Метод S.find(T, a, b) возвращает индекс в строке S, а не индекс относительно начала среза.
 
-ifPos('<button',LowerCase(LWork))<>0: 		if LWork.lower().find('<button') <> -1:
-ifPos('<label',LowerCase(LWork))<>0:		if LWork.lower().find('<label') <> -1:
-ifPos('<textedit',LowerCase(LWork))<>0:		if LWork.lower().find('<textedit') <> -1:
-n=Pos('caption="',LowerCase(LWork))		n = LWork.lower().find('caption="')
-n=Pos('height="',LowerCase(LWork))		n = LWork.lower().find('height="')
-n=Pos('left="',LowerCase(LWork))		n = LWork.lower().find('left="')
-n=Pos('<',LWork)				n = LWork.find('<')
-n=Pos('>',LWork)				n = LWork.find('>')
-n=Pos('',LWork)					n = LWork.find('')
+ifPos('<button',LowerCase(lineWork))<>0: 		if lineWork.lower().find('<button') <> -1:
+ifPos('<label',LowerCase(lineWork))<>0:		if lineWork.lower().find('<label') <> -1:
+ifPos('<textedit',LowerCase(lineWork))<>0:		if lineWork.lower().find('<textedit') <> -1:
+n=Pos('caption="',LowerCase(lineWork))		n = lineWork.lower().find('caption="')
+n=Pos('height="',LowerCase(lineWork))		n = lineWork.lower().find('height="')
+n=Pos('left="',LowerCase(lineWork))		n = lineWork.lower().find('left="')
+n=Pos('<',lineWork)				n = lineWork.find('<')
+n=Pos('>',lineWork)				n = lineWork.find('>')
+n=Pos('',lineWork)					n = lineWork.find('')
 n=Pos('textedit',LowerCase(L1))			n = L1.lower().find('textedit')
-n=Pos('text="',LowerCase(LWork))		n = LWork.lower().find('text="')
-n=Pos('top="',LowerCase(LWork))			n = LWork.lower().find('top="')
-n=Pos('width="',LowerCase(LWork))		n = LWork.lower().find('width="')
+n=Pos('text="',LowerCase(lineWork))		n = lineWork.lower().find('text="')
+n=Pos('top="',LowerCase(lineWork))			n = lineWork.lower().find('top="')
+n=Pos('width="',LowerCase(lineWork))		n = lineWork.lower().find('width="')
 
 

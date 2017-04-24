@@ -1,0 +1,11 @@
+ wedklhjsdf avf
+ d fd<Button	ddfsf dfdfL leFT=231";" Top=148- Height="5"; Width="75"; Caption="Button_1">
+
+
+<Label Left="28"; Top="59"; Height="16"; Width="140"; Text="Label_2>"  <Edit Left="240";Top="100";Height="24";Width="121";Text="Ed\i''t_2">
+
+<Label nhk;jhu  f Left="99"; fTop="131"; Height="17"; Width="65"; Text="La<b'el_2>">
+rf;eg i <Edit Left="263"
+Top="251"; Height="24" Width="121";Text="Edit_3"><      	Button	a Left="	119"; Top="157" Height="25" Width="75"			Caption="Button_2">
+
+
