@@ -1,4 +1,4 @@
-<Button Left="231"; Top="148"; Height="25"; Width="75"; Caption="Button_1">
+<Button Left="2r31"; Top="148"; Height="25"; Width="75"; Caption="Button_1">
 
 <TextEdit Left="198"; Top="49"; Height="24"; Width="121"; Text="Edit_1">
         <TextEdit left="540"; top="168"; width="30"; height="22"; text="E">          
@@ -6,7 +6,7 @@
 
 TextEdit Left="240"; Top="100"; Height="24"; Width="121"; Text="Edit_2"> ljelrjel  
 
-<Label Left="99"; Top="131"; Height="17"; Width="65"; Text="Label_1"
+<Label Left="240"; Top="111"; Height="17"; Width="65"; Text="Label_1"
 
   Edit Left="263"; Top="251"; Height="24"; Width="121"; Text="Edit_3"
 
