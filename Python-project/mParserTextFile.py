@@ -33,14 +33,11 @@ def correctLine(line):  # Чистка строк по краям, восста�
     return tempLine
 
 
-def checkValid(arr, log):  # Проверка объекта на конфликт с предыдущими. Но IMHO с ошибкой в условии!?
+def checkValid(arr):  # Проверка объекта на конфликт с предыдущими.
     if len(arr) <= 1:  # Если в списке всего 0 или 1 элемент - он точно без конфликтов
         return True
     Valid = True
-    i = len(arr) - 2
-
-    log.write("TEST: " + str(i) + "     " + str(arr[i]) + "\n")  # DEBUG: Отладочный вывод
-
+    i = len(arr) - 1
     for n in range(i):
         if (arr[i]["top"]  + arr[i]["height"] > arr[n]["top"])    and (
             arr[i]["top"]  < arr[n]["top"]    + arr[n]["height"]) and (
@@ -61,12 +58,7 @@ def ParserTextFile(fileName, arr):
     i = 0
 
     with open(fileName, "r") as f:
-#        data = f.readlines()
-#       for L in data:
-#           words = L.split(";")
-        # TODO: Переделать анализ строки с использованием split
-
-        for L in f:  # Проверить правильно ли так, или нужно через readlines
+        for L in f:
             lineWork = correctLine(L)  # Чистка строк по краям, восстановление структуры строки
             if lineWork == '':  # Если строка пустая - пропускаем
                 continue
@@ -84,7 +76,7 @@ def ParserTextFile(fileName, arr):
                 arr[i]["typ"] = typ["Label"]
             else:  # Строка не содержит тип объекта - пропускаем
                 arr.pop()  # Удаляем последний пустой элемент списка
-                logFile.write("ERROR: " + lineWork + " = wrong object type" + "\n")
+                logFile.write("ERROR  (wrong object type) : " + L)
                 Errs = True
                 continue
             # ----------------------------------------------------------------------------
@@ -151,77 +143,59 @@ def ParserTextFile(fileName, arr):
                 arr[i]["left"] = 0
             if arr[i]["top"] < 0:
                 arr[i]["top"] = 0
-            if arr[i]["width"]  < MINWIDTH:
+            if arr[i]["width"] < MINWIDTH:
                 arr[i]["width"] = DEFAULTWIDTH
             if arr[i]["typ"] == typ["TextEdit"]:
                 arr[i]["height"] = MINHEIGHT
             elif arr[i]["height"] < MINHEIGHT:
                 arr[i]["height"] = DEFAULTHEIGHT
 
-            # Проверка объекта на конфликт с предыдущими.
-            Valid = checkValid(arr, logFile)
-            if not Valid: logFile.write("not Valid" + "\n")
+            Valid = checkValid(arr)  # Проверка объекта на конфликт с предыдущими
 
             # Попытка коррекции объекта перемещением
+            # TODO: Проверить корректность работы, отладить
             # ------------------------------------------------------------------------
-            # if not Valid:
-            #     Valid = True
-            #     n = 1
-            #
-            #     repeat # Переделать в цикл while
-            #         if (arr[i]["top"] >= arr[n]["top"]) and (
-            #             arr[i]["top"] < arr[n]["top"] + arr[n]["height"]) and (
-            #             arr[i]["left"] >= arr[n]["left"]) and (
-            #             arr[i]["left"] < arr[n]["left"] + arr[n]["width"]):
-            #             Valid = False
-            #         n += 1
-            #     until(Valid = False) or (n = i)
-            #
-            #     if not Valid:
-            #         if (arr[i]["top"] >= arr[n - 1]["top"]) and (
-            #             arr[i]["top"] < arr[n - 1]["top"] + arr[n - 1]["height"]):
-            #             arr[i]["top"] = arr[n - 1]["top"] + arr[n - 1]["height"]
-            #     Valid = True
-            #
-            #     n = 1
-            #
-            #     repeat # Переделать в цикл while
-            #         if (arr[i]["top"] >= arr[n]["top"]) and (
-            #             arr[i]["top"] < arr[n]["top"] + arr[n]["height"]) and (
-            #             arr[i]["left"] >= arr[n]["left"]) and (
-            #             arr[i]["left"] < arr[n]["left"] + arr[n]["width"]):
-            #             Valid = False
-            #         n += 1
-            #     until(Valid = False) or (n = i)
-            #
-            #     if not Valid:
-            #         if (arr[i]["left"] >= arr[n - 1]["left"]) and (
-            #             arr[i]["left"] < arr[n - 1]["left"] + arr[n - 1]["width"]):
-            #             arr[i]["left"] = arr[n - 1]["left"] + arr[n - 1]["width"]
-            #
-            #     # Повторная проверка объекта на конфликт с предыдущими.
-            #     Valid = checkValid(arr)
-            #
-            # # Попытка коррекции объекта уменьшением
-            # # ------------------------------------------------------------------------
-            # if not Valid:
-            #     arr[i]["width"] = MINWIDTH
-            #     arr[i]["height"] = MINHEIGHT
-            #
-            #     # Повторная проверка объекта на конфликт с предыдущими.
-            #     Valid = checkValid(arr)
-            # # ------------------------------------------------------------------------
-            #
-            # if Valid:
-            #     i += 1
-            # else:
-            #     arr.pop()  # Удаляем последний (конфликтующий) элемент списка
-            #     logFile.write(L + " ERROR - conflict of objects")
-            #     Errs = True
-            # # ------------------------------------------------------------------------
-            logFile.write("OBJECT: " + str(arr[i]) + "\n")  # DEBUG: Отладочный вывод
+            if not Valid:
+                Valid = True
+                for n in range(len(arr) - 1):
+                    if (arr[i]["top"] >= arr[n]["top"]) and (arr[i]["top"] < arr[n]["top"] + arr[n]["height"]) and (
+                    arr[i]["left"] >= arr[n]["left"]) and (arr[i]["left"] < arr[n]["left"] + arr[n]["width"]):
+                        Valid = False
+                        break
 
-    logFile.write("End parsing" + "\n")
+                if not Valid:
+                    if (arr[i]["top"] >= arr[n - 1]["top"]) and (arr[i]["top"] < arr[n - 1]["top"] + arr[n - 1]["height"]):
+                        arr[i]["top"] = arr[n - 1]["top"] + arr[n - 1]["height"]
+
+                Valid = True
+                for n in range(len(arr) - 1):
+                    if (arr[i]["top"] >= arr[n]["top"]) and (arr[i]["top"] < arr[n]["top"] + arr[n]["height"]) and (
+                    arr[i]["left"] >= arr[n]["left"]) and (arr[i]["left"] < arr[n]["left"] + arr[n]["width"]):
+                        Valid = False
+                        break
+
+                if not Valid:
+                    if (arr[i]["left"] >= arr[n - 1]["left"]) and (arr[i]["left"] < arr[n - 1]["left"] + arr[n - 1]["width"]):
+                        arr[i]["left"] = arr[n - 1]["left"] + arr[n - 1]["width"]
+
+                Valid = checkValid(arr)  # Повторная проверка объекта на конфликт с предыдущими
+
+            #  Попытка коррекции объекта уменьшением
+            # TODO: Можно уменьшать не сразу до минимума, а до устранения конфликта
+            # ------------------------------------------------------------------------
+            if not Valid:
+                arr[i]["width"] = MINWIDTH
+                arr[i]["height"] = MINHEIGHT
+
+                Valid = checkValid(arr)  # Повторная проверка объекта на конфликт с предыдущими
+            # ------------------------------------------------------------------------
+            if Valid:
+                i += 1
+            else:
+                arr.pop()  # Удаляем последний (конфликтующий) элемент списка
+                logFile.write("ERROR (conflict of objects): " + L)
+                Errs = True
+
+    logFile.write("End of parsing" + "\n")
     logFile.close()
-    # if not Errs : DeleteFile(PathName + '.log')
     return Errs

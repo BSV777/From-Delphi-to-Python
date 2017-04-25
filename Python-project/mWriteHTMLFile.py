@@ -1,134 +1,118 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 def WriteHTMLFile(fileName, arr):
     typ = {"Button": 1, "TextEdit": 2, "Label": 3}
-    #arr = []  # Список объектов с их свойствами. Каждый объект представлен словарем
     f = open(fileName, "w")
-
-    # TODO: 1. Заменить case на if
 
     # NCom, NX, NY, i, j, n, x, y, k, p, t:integer
     # s, ts, L:string
     # sp:boolean
-    # Matr: arr of arr of integer  # Рабочая матрица парсера, где
-    # строка 0  -  абсолютные координаты вертикальных границ объектов
-    # столбец 0  -  абсолютные координаты горизонтальных границ объектов
-    # Возможные значения ячеек внутри:
-    # 32767  -  необработанная ячейка
-    # N > 0  -  ячейка содержит левый верхний угол объекта N
-    # M < 0  -  ячейка содержит левый верхний угол пустого блока M
-    # 0  -  все остальные ячейки после обработки
 
-    #Spc: arr of arr of integer  # Матрица пустых блоков, назначение столбцов:
+    NCom = len(arr)
+    NX = NY = NCom * 2
+
+    Matr = []
+    # Matr - двумерный массив, где
+    # строка 0 - абсолютные координаты вертикальных границ объектов
+    # столбец 0 - абсолютные координаты горизонтальных границ объектов
+    # Возможные значения ячеек внутри:
+    # None - необработанная ячейка
+    # N > 0 - ячейка содержит левый верхний угол _объекта_ N
+    # M < 0 - ячейка содержит левый верхний угол _пустого_блока_ M
+    # '' - все остальные ячейки после обработки
+
+    # Формирование отсортированного списка уникальных значений границ объекта по вертикали
+    col = []
+    for i in range(NCom):
+        if arr[i]["top"] not in col:
+            col.append(arr[i]["top"])
+        if arr[i]["top"] + arr[i]["height"] not in col:
+            col.append(arr[i]["top"] + arr[i]["height"])
+    col.sort()
+
+    # Формирование отсортированного списка уникальных значений границ объекта по горизонтали
+    row = []
+    for i in range(NCom):
+        if arr[i]["left"] not in row:
+            row.append(arr[i]["left"])
+        if arr[i]["left"] + arr[i]["width"] not in row:
+            row.append(arr[i]["left"] + arr[i]["width"])
+    row.sort()
+
+    # Заполнение строки 0 и столбца 0 координатами границ объектов, все остальные ячейки = None
+    Matr.append([])
+    Matr[0] = [None] + row
+    for y in range(1, len(col) + 1):
+        Matr.append([])
+        Matr[y].append(col[y - 1])
+        for x in range(1,len(row) + 1):
+            Matr[y].append(None)
+
+    # Расстановка объектов в блоки ячеек
+    # --------------------------------------------------------------------------------
+    for n in range(NCom):
+        arr[n]["rowspan"] = 0
+        for y in range(1, len(col) + 1):
+            if (Matr[y][0] >= arr[n]["top"]) and (Matr[y][0] < (arr[n]["top"] + arr[n]["height"])):
+                arr[n]["rowspan"] = arr[n]["rowspan"] + 1
+                arr[n]["colspan"] = 0
+                for x in range(1, len(row) + 1):
+                    if (Matr[0][x] >= arr[n]["left"]) and (Matr[0][x] < (arr[n]["left"] + arr[n]["width"])):
+                        arr[n]["colspan"] = arr[n]["colspan"] + 1
+                        if (Matr[0][x] == arr[n]["left"]) and (Matr[y][0] == arr[n]["top"]):
+                            Matr[y][x] = n
+                        else:
+                            Matr[y][x] = ''
+
+    # Группировка пустых ячеек в блоки
+    # --------------------------------------------------------------------------------
+    Spc = []
+    # Spc - двумерный массив пустых блоков, назначение столбцов:
     # 0  -  значение COLSPAN для ячейки HTML
     # 1  -  значение ROWSPAN для ячейки HTML
 
-    # NCom = High(Prop_s) # Заменить на размер массива
-    # NX = NCom * 2
-    # NY = NCom * 2
-    # SetLength(Matr, NX + 1, NY + 1)
-    # for x = 0 to NX do
-    #     for y = 0 to NY do
-    #         Matr[x, y] = 32767
-    # for i = 1 to NCom do  # Заполнение строки 0 и столбца 0 координатами границ объектов
-    #     Matr[0, i * 2 - 1] = arr[i]["top"]
-    #     Matr[0, i * 2] = arr[i]["top"] + arr[i]["height"]
-    #     Matr[i * 2 - 1, 0] = arr[i]["left"]
-    #     Matr[i * 2, 0] = arr[i]["left"] + arr[i]["width"]
-    #
-    # repeat  # Сортировка значений столбца 0
-    #     p = 0
-    #     for k = 1 to NY - 1 do
-    #         if Matr[0, k] > Matr[0, k + 1]:
-    #             t = Matr[0, k]
-    #             Matr[0, k] = Matr[0, k + 1]
-    #             Matr[0, k + 1] = t
-    #             p += 1
-    # until p = 0
-    #
-    # repeat  # Удаление дублей в столбце 0
-    #     for k = 1 to NY - 1 do
-    #         p = 0
-    #         if (Matr[0, k]=Matr[0, k + 1]):
-    #             for i = k + 1 to NY - 1 do
-    #                 Matr[0, i] = Matr[0, i + 1]
-    #             p += 1
-    #     NY = NY - p
-    # until p = 0
-    #
-    # repeat  # Сортировка значений строки 0
-    #     p = 0
-    #     for k = 1 to NX - 1 do
-    #         if Matr[k, 0] > Matr[k + 1, 0]:
-    #             t = Matr[k, 0]
-    #             Matr[k, 0] = Matr[k + 1, 0]
-    #             Matr[k + 1, 0] = t
-    #             p += 1
-    # until p = 0
-    #
-    # repeat  # Удаление дублей в строке 0
-    #     for k = 1 to NX - 1 do
-    #         p = 0
-    #         if Matr[k, 0] = Matr[k + 1, 0]:
-    #             for i = k + 1 to NX - 1 do
-    #                 Matr[i, 0] = Matr[i + 1, 0]
-    #             p += 1
-    #     NX = NX - p
-    # until p = 0
-    #
-    # for n = 1 to NCom do  # Расстановка объектов в блоки ячеек
-    #     arr[n]["colspan"] = 0
-    #     for x = 1 to NX do
-    #         if (Matr[x, 0] >= arr[n]["left"]) and (
-    #             Matr[x, 0] < arr[n]["left"] + arr[n]["width"]):
-    #             arr[n]["colspan"] = arr[n]["colspan"] + 1
-    #             arr[n]["rowspan"] = 0
-    #             for y = 1 to NY do
-    #                 if (Matr[0, y] >= arr[n]["top"]) and (
-    #                     Matr[0, y] < arr[n]["top"] + arr[n]["height"]):
-    #                     arr[n]["rowspan"] = arr[n]["rowspan"] + 1
-    #                     if (Matr[x, 0] = arr[n]["left"]) and (
-    #                         Matr[0, y] = arr[n]["top"]):
-    #                         Matr[x, y] = n
-    #                     else:
-    #                         Matr[x, y] = 0
-    #
-    # n = 1  # Группировка пустых ячеек в блоки
-    # for y = 1 to NY - 1 do
-    #     for x = 1 to NX - 1 do
-    #         i = 1
-    #         if Matr[x, y] = 32767:
-    #             Matr[x, y] = -n
-    #             while (Matr[x + i, y] = 32767) and (x + i < NX) do
-    #                 Matr[x + i, y] = 0
-    #                 i += 1
-    #             j = 1
-    #             sp = True
-    #             while (sp = True) and (y + j < NY) do
-    #                 sp = True
-    #                 for k = x to x + i - 1 do
-    #                     if Matr[k, y + j] <> 32767:
-    #                         sp = False
-    #                 if sp = True:
-    #                      for k = x to x + i - 1 do
-    #                         Matr[k, y + j] = 0
-    #                      j += 1
-    #             SetLength(Spc, 2, n + 1)
-    #             Spc[0, n] = i
-    #             Spc[1, n] = j
-    #             n += 1
+    # TODO: Переделать, отладить
+    n = 1
+    for y in range(1, len(col) + 1):
+        for x in range(1, len(row) + 1):
+            i = 1
+            if Matr[x, y] == None:
+                Matr[x, y] = -n
+                while (Matr[x + i, y] == None) and (x + i < NX)
+                    Matr[x + i, y] = ''
+                    i += 1
+                j = 1
+                sp = True
+                while (sp == True) and (y + j < NY)
+                    sp = True
+                    for k = x to x + i - 1
+                        if Matr[k, y + j] <> None:
+                            sp = False
+                    if sp == True:
+                         for k in range(x, x + i):
+                            Matr[k, y + j] = ''
+                         j += 1
+                SetLength(Spc, 2, n + 1)
+                Spc[0, n] = i
+                Spc[1, n] = j
+                n += 1
 
-    f.write('<HTML>')
-    f.write('<HEAD>')
-    f.write('<TITLE>Конкурсное задание</TITLE>')
-    f.write('<META HTTP - EQUIV="Content - Type" CONTENT="text/html charset=windows - 1251">')
-    f.write('</HEAD>')
-    f.write('<BODY BGCOLOR=#ffffff>')
-    f.write('<FORM>')
-#    f.write('<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=' + IntToStr(Matr[NX, 0] - Matr[1, 0]) + '>')
-    f.write('   <TR>')
+    for tmp in range(len(arr)): f.write(str(arr[tmp]) + "\n")  # DEBUG: Отладочный вывод
+    f.write("\n\n")  # DEBUG: Отладочный вывод
+    for tmp in range(len(Matr)): f.write(str(Matr[tmp]) + "\n")  # DEBUG: Отладочный вывод
+    f.write("\n\n")  # DEBUG: Отладочный вывод
+    for tmp in range(len(Spc)): f.write(str(Spc[tmp]) + "\n")  # DEBUG: Отладочный вывод
+
+    # f.write('<HTML>')
+    # f.write('<HEAD>')
+    # f.write('<TITLE>Editor</TITLE>')
+    # f.write('<META HTTP - EQUIV="Content - Type" CONTENT="text/html charset=UTF-8">')
+    # f.write('</HEAD>')
+    # f.write('<BODY BGCOLOR=#ffffff>')
+    # f.write('<FORM>')
+    # f.write('<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=' + IntToStr(Matr[NX, 0] - Matr[1, 0]) + '>')
+    # f.write('   <TR>')
 
     # for i = 1 to NX - 1 do
     #     s = '      <TD><IMG height=1 src="spacer.gif" width=' + \
@@ -149,6 +133,9 @@ def WriteHTMLFile(fileName, arr):
     #                 s = s + ' COLSPAN=' + IntToStr(arr[Matr[j, i]]["colspan"])
     #             if arr[Matr[j, i]]["rowspan"] > 1:
     #                 s = s + ' ROWSPAN=' + IntToStr(arr[Matr[j, i]]["rowspan"])
+
+    # TODO: 1. Заменить case на if
+
     #             case arr[Matr[j, i]]["typ"] of
     #                 typ["Button"]:
     #                 s = s + '><INPUT HEIGHT="' + IntToStr(arr[Matr[j, i]]["height"]) + \
@@ -184,8 +171,8 @@ def WriteHTMLFile(fileName, arr):
     #     f.write(s)
     #     f.write('   </TR>')
 
-    f.write('</TABLE>')
-    f.write('</FORM>')
-    f.write('</BODY>')
-    f.write('</HTML>')
+    # f.write('</TABLE>')
+    # f.write('</FORM>')
+    # f.write('</BODY>')
+    # f.write('</HTML>')
     f.close()
