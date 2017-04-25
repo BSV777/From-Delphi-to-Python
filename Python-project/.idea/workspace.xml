@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0428cd53-7802-401d-9828-34f9af9baad6" name="Default" comment="">
+    <list default="true" id="0428cd53-7802-401d-9828-34f9af9baad6" name="Default" comment="Парсинг отлажен. Частично отлажен вывод в HTML.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Editor.py" afterPath="$PROJECT_DIR$/Editor.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mParserTextFile.py" afterPath="$PROJECT_DIR$/mParserTextFile.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mWriteHTMLFile.py" afterPath="$PROJECT_DIR$/mWriteHTMLFile.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/bad.txt" afterPath="$PROJECT_DIR$/../TestDatasets/bad.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/big.txt" afterPath="$PROJECT_DIR$/../TestDatasets/big.txt" />
@@ -14,7 +12,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/overlap.txt" afterPath="$PROJECT_DIR$/../TestDatasets/overlap.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/simple.log" afterPath="$PROJECT_DIR$/../TestDatasets/simple.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/simple.txt" afterPath="$PROJECT_DIR$/../TestDatasets/simple.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/test1.log" afterPath="$PROJECT_DIR$/../TestDatasets/test1.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/test1.htm" afterPath="$PROJECT_DIR$/../TestDatasets/test1.htm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/test1.txt" afterPath="$PROJECT_DIR$/../TestDatasets/test1.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/test2.txt" afterPath="$PROJECT_DIR$/../TestDatasets/test2.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../TestDatasets/test3.txt" afterPath="$PROJECT_DIR$/../TestDatasets/test3.txt" />
@@ -55,8 +53,8 @@
       <file leaf-file-name="mWriteHTMLFile.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mWriteHTMLFile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="77" column="38" lean-forward="true" selection-start-line="77" selection-start-column="38" selection-end-line="77" selection-end-column="38" />
+            <state relative-caret-position="828">
+              <caret line="166" column="37" lean-forward="true" selection-start-line="166" selection-start-column="37" selection-end-line="166" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -84,6 +82,9 @@
       <find>LWork</find>
       <find>32767</find>
       <find>logFile</find>
+      <find>NX</find>
+      <find>IntToStr</find>
+      <find>Spc</find>
     </findStrings>
     <replaceStrings>
       <replace>array[i][&quot;typ&quot;]</replace>
@@ -92,6 +93,7 @@
       <replace>!=</replace>
       <replace>lineWork</replace>
       <replace>None</replace>
+      <replace>str</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -143,8 +145,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -301,7 +303,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493046098342</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Парсинг отлажен. Частично отлажен вывод в HTML.">
+      <created>1493116952504</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1493116952504</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -338,7 +347,8 @@
     <MESSAGE value="Частично преобразована процедура парсинга. Добавлены комментарии." />
     <MESSAGE value="Парсинг частично отлажен" />
     <MESSAGE value="Парсинг частично отлажен _2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Парсинг частично отлажен _2" />
+    <MESSAGE value="Парсинг отлажен. Частично отлажен вывод в HTML." />
+    <option name="LAST_COMMIT_MESSAGE" value="Парсинг отлажен. Частично отлажен вывод в HTML." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -347,6 +357,32 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Editor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mParserTextFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#47#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mWriteHTMLFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1185">
+          <caret line="79" column="28" lean-forward="false" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Editor.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -558,8 +594,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mWriteHTMLFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="77" column="38" lean-forward="true" selection-start-line="77" selection-start-column="38" selection-end-line="77" selection-end-column="38" />
+        <state relative-caret-position="828">
+          <caret line="166" column="37" lean-forward="true" selection-start-line="166" selection-start-column="37" selection-end-line="166" selection-end-column="37" />
           <folding />
         </state>
       </provider>
