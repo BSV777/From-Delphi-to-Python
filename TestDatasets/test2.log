@@ -1,0 +1,7 @@
+Start parsing
+ERROR (conflict of objects): <Button left="70"; top="70"; width="30"; height="180"; caption="T">
+ERROR (conflict of objects): <TextEdit left="510"; top="150"; width="30"; height="22"; text="T">
+ERROR (conflict of objects): <TextEdit left="350"; top="230"; width="70"; height="22"; text="SSSSSSSSS">
+ERROR (conflict of objects): <Button left="70"; top="320"; width="30"; height="180"; caption="T">
+ERROR (conflict of objects): <TextEdit left="350"; top="480"; width="70"; height="22"; text="SSSSSSSSS">
+End of parsing

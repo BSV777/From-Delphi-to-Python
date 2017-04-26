@@ -44,4 +44,4 @@
 <Button left="330"; top="460"; width="40"; height="20"; caption="S">
 <TextEdit left="200"; top="480"; width="110"; height="22"; text="EEEEEEEEEEEEEE">
 <TextEdit left="350"; top="480"; width="70"; height="22"; text="SSSSSSSSS">
-<TextEdit left="510"; top="480"; width="30"; height="22"; text="!!!">
+<TextEdit left="510"; top="480"; width="30"; height="22"; text="!!!">

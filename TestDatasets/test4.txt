@@ -1,0 +1,2 @@
+<Button left="65"; top="35"; width="70"; height="21"; caption="Button0">
+<Button left="173"; top="35"; width="70"; height="21"; caption="Button1">

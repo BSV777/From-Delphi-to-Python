@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
 def WriteHTMLFile(fileName, arr):
     typ = {"Button": 1, "TextEdit": 2, "Label": 3}
     f = open(fileName, "w")
@@ -20,9 +21,9 @@ def WriteHTMLFile(fileName, arr):
     # Формирование отсортированного списка уникальных значений границ объекта по вертикали
     col = []
     for i in range(NCom):
-        #if arr[i]["top"] not in col:
+        if arr[i]["top"] not in col:
             col.append(arr[i]["top"])
-        #if arr[i]["top"] + arr[i]["height"] not in col:
+        if arr[i]["top"] + arr[i]["height"] not in col:
             col.append(arr[i]["top"] + arr[i]["height"])
     col.sort()
     NY = len(col)
@@ -68,8 +69,6 @@ def WriteHTMLFile(fileName, arr):
     # 0  -  значение COLSPAN для ячейки HTML
     # 1  -  значение ROWSPAN для ячейки HTML
 
-    # TODO: Отладить!
-
     Spc = [[],[]]
     n = 1
     for y in range(1, NY):
@@ -77,7 +76,7 @@ def WriteHTMLFile(fileName, arr):
             i = 1
             if Matr[y][x] == None:
                 Matr[y][x] = -n
-                while (x + i < NX) and (Matr[y][x + i] == None):  # Считаем количество необработанных ячеек справа
+                while (x + i < NX) and (Matr[y][x + i] is None):  # Считаем количество необработанных ячеек справа
                     Matr[y][x + i] = ''  # Отмечаем ячейки как обработанные
                     i += 1
 
@@ -86,7 +85,7 @@ def WriteHTMLFile(fileName, arr):
                 while (sp == True) and (y + j < NY):
                     sp = True
                     for k in range(x, x + i):
-                        if Matr[y + j][k] <> None:
+                        if not Matr[y + j][k] is None:
                             sp = False
                     if sp == True:
                          for k in range(x, x + i):
@@ -113,7 +112,9 @@ def WriteHTMLFile(fileName, arr):
     for i in range(1, NY + 1):
         f.write('   <TR>\n')
         for j in range(1, NX + 1):
-            if Matr[i][j] != '' and Matr[i][j] >= 0:  # Блок ячеек, содержащий объект
+
+            # Блок ячеек, содержащий объект
+            if Matr[i][j] != '' and Matr[i][j] >= 0:
                 if arr[Matr[i][j]]["typ"] == typ["Button"]:
                     ts = 'button'
                 if arr[Matr[i][j]]["typ"] == typ["TextEdit"]:
@@ -141,7 +142,8 @@ def WriteHTMLFile(fileName, arr):
                     s += '>' + arr[Matr[i][j]]["text"] + '</TD>\n'
                     f.write(s)
 
-            if Matr[i][j] != '' and Matr[i][j] != None and Matr[i][j] < 0:  # Пустой блок ячеек
+            # Пустой блок ячеек
+            if Matr[i][j] != '' and not Matr[i][j] is None and Matr[i][j] < 0:
                 s = '      <TD'
                 if Spc[0][-Matr[i][j] - 1] > 1:
                   s += ' COLSPAN=' + str(Spc[0][-Matr[i][j] - 1])
@@ -160,9 +162,7 @@ def WriteHTMLFile(fileName, arr):
 
     # for tmp in range(len(arr)): f.write(str(arr[tmp]) + "\n")  # DEBUG: Отладочный вывод
     # f.write("\n\n")  # DEBUG: Отладочный вывод
-    # for tmp in range(len(Matr)):
-    #     tmp2 = '%5s' % str(Matr[tmp])
-    #     f.write(tmp2 + "\n")  # DEBUG: Отладочный вывод
+    # for tmp in range(len(Matr)): f.write(str(Matr[tmp]) + "\n")  # DEBUG: Отладочный вывод
     # f.write("\n\n")  # DEBUG: Отладочный вывод
     # for tmp in range(len(Spc)): f.write(str(Spc[tmp]) + "\n")  # DEBUG: Отладочный вывод
 
