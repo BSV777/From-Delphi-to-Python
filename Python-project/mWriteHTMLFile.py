@@ -20,9 +20,9 @@ def WriteHTMLFile(fileName, arr):
     # Формирование отсортированного списка уникальных значений границ объекта по вертикали
     col = []
     for i in range(NCom):
-        if arr[i]["top"] not in col:
+        #if arr[i]["top"] not in col:
             col.append(arr[i]["top"])
-        if arr[i]["top"] + arr[i]["height"] not in col:
+        #if arr[i]["top"] + arr[i]["height"] not in col:
             col.append(arr[i]["top"] + arr[i]["height"])
     col.sort()
     NY = len(col)
@@ -72,14 +72,15 @@ def WriteHTMLFile(fileName, arr):
 
     Spc = [[],[]]
     n = 1
-    for y in range(1, NY + 1):
-        for x in range(1, NX + 1):
+    for y in range(1, NY):
+        for x in range(1, NX):
             i = 1
             if Matr[y][x] == None:
                 Matr[y][x] = -n
                 while (x + i < NX) and (Matr[y][x + i] == None):  # Считаем количество необработанных ячеек справа
                     Matr[y][x + i] = ''  # Отмечаем ячейки как обработанные
                     i += 1
+
                 j = 1
                 sp = True
                 while (sp == True) and (y + j < NY):
@@ -91,9 +92,8 @@ def WriteHTMLFile(fileName, arr):
                          for k in range(x, x + i):
                             Matr[y + j][k] = ''
                          j += 1
-                # Spc.append([])
-                Spc[0].append(i)  # Spc[0][n] = i
-                Spc[1].append(j)  # Spc[1][n] = j
+                Spc[0].append(i)
+                Spc[1].append(j)
                 n += 1
 
     f.write('<HTML>\n')
@@ -105,68 +105,65 @@ def WriteHTMLFile(fileName, arr):
     f.write('<FORM>\n')
     f.write('<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=' + str(Matr[0][NX] - Matr[0][1]) + '>\n')
     f.write('   <TR>\n')
-
     for i in range(1, NX):
         s = '      <TD><IMG height=1 src="spacer.gif" width=' + str(Matr[0][i + 1] - Matr[0][i]) + '></TD>\n'
         f.write(s)
-
     f.write('   </TR>\n')
-    for i in range(1, NY):
+
+    for i in range(1, NY + 1):
         f.write('   <TR>\n')
-        for j in range(1, NX):
-            if Matr[i][j] != '' and Matr[i][j] > 0:  # Блок ячеек, содержащий объект
+        for j in range(1, NX + 1):
+            if Matr[i][j] != '' and Matr[i][j] >= 0:  # Блок ячеек, содержащий объект
                 if arr[Matr[i][j]]["typ"] == typ["Button"]:
                     ts = 'button'
                 if arr[Matr[i][j]]["typ"] == typ["TextEdit"]:
                     ts = 'text'
                 s = '      <TD'
                 if arr[Matr[i][j]]["colspan"] > 1:
-                    s = s + ' COLSPAN=' + str(arr[Matr[i][j]]["colspan"])
+                    s += ' COLSPAN=' + str(arr[Matr[i][j]]["colspan"])
                 if arr[Matr[i][j]]["rowspan"] > 1:
-                    s = s + ' ROWSPAN=' + str(arr[Matr[i][j]]["rowspan"])
+                    s += ' ROWSPAN=' + str(arr[Matr[i][j]]["rowspan"])
 
                 if arr[Matr[i][j]]["typ"] == typ["Button"]:
-                    s = s + '><INPUT HEIGHT="' + str(arr[Matr[i][j]]["height"]) + '" WIDTH="' + \
+                    s += '><INPUT HEIGHT="' + str(arr[Matr[i][j]]["height"]) + '" WIDTH="' + \
                         str(arr[Matr[i][j]]["width"]) + '" style="HEIGHT: ' + str(arr[Matr[i][j]]["height"]) + \
-                        'px WIDTH: ' + str(arr[Matr[i][j]]["width"]) + 'px" type=' + ts
-                    f.write(s)
-                    f.write(' value="' + arr[Matr[i][j]]["text"] + '"></TD>\n')
+                        'px; WIDTH: ' + str(arr[Matr[i][j]]["width"]) + 'px" type=' + ts
+                    f.write(s + "\n")
+                    f.write('          value="' + arr[Matr[i][j]]["text"] + '"></TD>\n')
 
                 elif arr[Matr[i][j]]["typ"] == typ["TextEdit"]:
-                    s = s + '><INPUT SIZE="' + str(arr[Matr[i][j]]["width"] // 8 - 1) + '" style="WIDTH: ' + \
+                    s += '><INPUT SIZE="' + str(arr[Matr[i][j]]["width"] // 8 - 1) + '" style="WIDTH: ' + \
                         str(arr[Matr[i][j]]["width"]) + 'px" type=' + ts
-                    f.write(s)
-                    f.write(' value="' + arr[Matr[i][j]]["text"] + '"></TD>\n')
+                    f.write(s + "\n")
+                    f.write('          value="' + arr[Matr[i][j]]["text"] + '"></TD>\n')
 
                 elif arr[Matr[i][j]]["typ"] == typ["Label"]:
-                    s = s + '>' + arr[Matr[i][j]]["text"] + '</TD>\n'
+                    s += '>' + arr[Matr[i][j]]["text"] + '</TD>\n'
                     f.write(s)
 
-            if Matr[i][j] != '' and Matr[i][j] < 0:  # Пустой блок ячеек
+            if Matr[i][j] != '' and Matr[i][j] != None and Matr[i][j] < 0:  # Пустой блок ячеек
                 s = '      <TD'
-                if Spc[0][- Matr[i][j]] > 1:
-                    s = s + ' COLSPAN=' + str(Spc[0][- Matr[i][j]])
-                if Spc[1][- Matr[i][j]] > 1:
-                    s = s + ' ROWSPAN=' + str(Spc[1][- Matr[i][j]])
-                s = s + '></TD>\n'
+                if Spc[0][-Matr[i][j] - 1] > 1:
+                  s += ' COLSPAN=' + str(Spc[0][-Matr[i][j] - 1])
+                if Spc[1][-Matr[i][j] - 1] > 1:
+                  s += ' ROWSPAN=' + str(Spc[1][-Matr[i][j] - 1])
+                s += '></TD>\n'
                 f.write(s)
-
-        s = '      <TD><IMG height=' + str(Matr[i + 1][0] - Matr[i][0]) + \
-            ' src="spacer.gif" width=1></TD>\n'
-        f.write(s)
+        if i < NY:
+            s = '      <TD><IMG height=' + str(Matr[i + 1][0] - Matr[i][0]) + ' src="spacer.gif" width=1></TD>\n'
+            f.write(s)
         f.write('   </TR>\n')
-
     f.write('</TABLE>\n')
     f.write('</FORM>\n')
     f.write('</BODY>\n')
     f.write('</HTML>\n')
 
-    for tmp in range(len(arr)): f.write(str(arr[tmp]) + "\n")  # DEBUG: Отладочный вывод
-    f.write("\n\n")  # DEBUG: Отладочный вывод
-    for tmp in range(len(Matr)):
-        tmp2 = '%5s' % str(Matr[tmp])
-        f.write(tmp2 + "\n")  # DEBUG: Отладочный вывод
-    f.write("\n\n")  # DEBUG: Отладочный вывод
-    for tmp in range(len(Spc)): f.write(str(Spc[tmp]) + "\n")  # DEBUG: Отладочный вывод
+    # for tmp in range(len(arr)): f.write(str(arr[tmp]) + "\n")  # DEBUG: Отладочный вывод
+    # f.write("\n\n")  # DEBUG: Отладочный вывод
+    # for tmp in range(len(Matr)):
+    #     tmp2 = '%5s' % str(Matr[tmp])
+    #     f.write(tmp2 + "\n")  # DEBUG: Отладочный вывод
+    # f.write("\n\n")  # DEBUG: Отладочный вывод
+    # for tmp in range(len(Spc)): f.write(str(Spc[tmp]) + "\n")  # DEBUG: Отладочный вывод
 
     f.close()
