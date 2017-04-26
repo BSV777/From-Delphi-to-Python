@@ -1,64 +1,62 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+import sys
 from PyQt4 import QtGui
-
 from PyQt4.QtGui import *
-
 import mBaseWindow  # Импортируем базовую форму, нарисованную в дизайнере
+import mParserTextFile
+import mWriteHTMLFile
 
+from mGUI import *
+
+MINTOP = 65
+MINLEFT = 1
 
 # Класс MainWindow, унаследованный от QMainWindow и Ui_BaseWindow - из дизайнера
 class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
+    _modified = False  # Схема не была модифицирована или была сохранена
+    _fileName = None
+    _fileNameWeb = None
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
-    # TODO: Работать здесь!
+    # TODO: Создать QScrollArea (возможно в UI)
     # ------------------------------------------------------------------------------
 
     def _select(self):
         print("_select")  # DEBUG: Отладочный вывод
 
-        # scrollArea = QtGui.QScrollArea(self)
-        # self.label2 = QtGui.QLabel(u"Надпись2", self)  # Создали объект надпись класса QLabel
-        # self.label2.move(80, 80)
-
-        # self.items_ly.addWidget(label2)
-        # self.add
-        # addWidget(label2)
-        # self.label2.setParent =
-
-
-        # scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        # scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        # scrollArea.setParent(self)
-        # label2.setParent(scrollArea)
-        # scrollArea.show()
-        # scrollArea.setVisible(True)
-        # print(scrollArea.sizes())
-
-        # if scrollArea.isVisible():
-        #    print('visible') 
-        # else:
-        #    print('not')
-
     def _createbt(self):
         print("_createbt")  # DEBUG: Отладочный вывод
-        self.verticalLayout.addWidget(QtGui.QPushButton(u"Кнопка", self))
+        self._modified = True
+        self.button1 = QtGui.QPushButton(u"Кнопка", self)  # Создали объект кнопка, экземпляр класса QPushButton
+        self.button1.move(MINLEFT, MINTOP)
+        self.button1.show()
 
 
     def _createed(self):
         print("_createed")  # DEBUG: Отладочный вывод
-        self.verticalLayout.addWidget(QtGui.QLineEdit(u"Поле", self))
+        self._modified = True
+        self.edit1 = QtGui.QLineEdit(u"Поле", self)    # Создали объект поле ввода, экземпляр класса QLineEdit
+        self.edit1.move(150, 160)
+        self.edit1.show()
+
 
 
     def _createlb(self):
         print("_createlb")  # DEBUG: Отладочный вывод
-        self.verticalLayout.addWidget(QtGui.QLabel(u"Надпись", self))
+        self._modified = True
+        self.label1 = QtGui.QLabel(u"Надпись2", self)   # Создали объект надпись класса QLabel
+        self.label1.move(100, 150)
+        self.label1.show()
 
 
     def _delobj(self):
         print("_delobj")  # DEBUG: Отладочный вывод
+        self._modified = True
+
 
     def _about(self):
         print("_about")  # DEBUG: Отладочный вывод
@@ -68,82 +66,138 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         ret = msgBox.exec_()
 
     def _create(self):
+        if self._modified:
+            msgBox = QMessageBox()
+            msgBox.setText(u"Документ не сохранен")
+            msgBox.setInformativeText(u"Сохранить изменения?")
+            msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+            msgBox.setDefaultButton(QMessageBox.Save)
+            ret = msgBox.exec_()
+            if ret == QMessageBox.Save:
+                self._save()
+            elif ret == QMessageBox.Discard:
+                self._createFile()
+        else:
+            self._createFile()
+
+    def _createFile(self):
         print("_create")  # DEBUG: Отладочный вывод
+        self._modified = False  # Схема не была модифицирована или была сохранена
+        self._fileName = None
+        self._fileNameWeb = None
+        self.setWindowTitle(u"Editor - ")
 
     def _open(self):
-        fileName = QFileDialog.getOpenFileName(self, u"Открыть файл")
+        if self._modified:
+            msgBox = QMessageBox()
+            msgBox.setText(u"Документ не сохранен")
+            msgBox.setInformativeText(u"Сохранить изменения?")
+            msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+            msgBox.setDefaultButton(QMessageBox.Save)
+            ret = msgBox.exec_()
+            if ret == QMessageBox.Save:
+                self._save()
+            elif ret == QMessageBox.Discard:
+                self._readFile()
+        else:
+            self._readFile()
+
+    def _readFile(self):
+        self._fileName = QFileDialog.getOpenFileName(self, u"Открыть файл")
+        # TODO: Сделать проверку ситуации отказа от открытия
+        dir = os.path.dirname(self._fileName)
+        name, ext = os.path.splitext(os.path.basename(self._fileName))
+        if os.path.exists(self._fileName):  # Если входной файл существует вызываем парсер
+            self._modified = False  # Схема не была модифицирована или была сохранена
+            self.setWindowTitle(u"Editor - " + name)
+            array = []  # Список объектов с их свойствами. Каждый объект представлен словарем
+            if mParserTextFile.ParserTextFile(self._fileName, array):  # Ошибки были записаны в лог
+                msgBox = QMessageBox()
+                msgBox.setText(u"Input file contains errors.")
+                msgBox.setInformativeText(u"See log file: " + os.path.join(dir, name + ".log"))
+                ret = msgBox.exec_()
+            #----------------------------------------------------------------------------------
+            # for i = 1 to High(Prop_s):
+            #     PanelList.Add(TPanel.Create(Self))
+            #     Count = PanelList.Count-1
+            #     Panel = PanelList.Items[Count]
+            #     with Panel:
+            #         Parent = SbDesk
+            #             case Prop_i[0, i] of
+            #             1:
+            #                 BevelOuter = bvRaised
+            #                 Color = clBtnFace
+            #                 Alignment = taCenter
+            #             2:
+            #                 BevelOuter = bvLowered
+            #                 Color = clHighlightText
+            #                 Alignment = taLeftJustify
+            #             3:
+            #                 BevelOuter = bvNone
+            #                 Color = clBtnFace
+            #                 Alignment = taLeftJustify
+            #         Tag = Count
+            #         Cursor = crSizeAll
+            #         BevelWidth = 2
+            #         Caption = Prop_s[i]
+            #         TabOrder = 0
+            #         PopupMenu = PopupMenu1
+            #         OnMouseDown = PanelMouseDown
+            #         OnMouseMove = PanelMouseMove
+            #     Lk = Prop_i[1, i]-sbDesk.HorzScrollBar.Position
+            #     Tk = Prop_i[2, i]-sbDesk.VertScrollBar.Position
+            #     Wk = Prop_i[3, i]
+            #     Hk = Prop_i[4, i]
+            #     CurrentPanel = Count
+            #     Refresh(Sender)
+            # SbDeskClick(Sender)
+            # ----------------------------------------------------------------------------------
 
     def _save(self):
-        fileIsNew = True  # Сделать проверку, что файл не был сохранен
-        if fileIsNew:
+        if self._fileName is None:  # Не присвоено имя файла
             self._saveas()
         else:
-            pass  # Здесь сделать сохранение в файл
+            # TODO: Здесь сделать сохранение в файл
+            print("_save")  # DEBUG: Отладочный вывод
+            # TODO: Сделать проверку успешности сохранения
+            self._modified = False  # Схема не была модифицирована или была сохранена
 
     def _saveas(self):
-        fileName = QFileDialog.getOpenFileName(self, u"Сохранить файл как")
+        self._fileName = QFileDialog.getSaveFileName(self, u"Сохранить файл как")
+        # TODO: Сделать проверку ситуации отказа от сохранения
+        self.setWindowTitle(u"Editor - " + self._fileName)
+        self._save()
 
     def _saveasweb(self):
-        fileName = QFileDialog.getOpenFileName(self, u"Сохранить файл как Web-страницу")
+        self._fileNameWeb = QFileDialog.getOpenFileName(self, u"Сохранить файл как Web-страницу")
 
     def _openasweb(self):
         print("_openasweb")  # DEBUG: Отладочный вывод
 
     def _exit(self):
-        msgBox = QMessageBox()
-        msgBox.setText(u"Документ не сохранен")
-        msgBox.setInformativeText(u"Сохранить изменения?")
-        msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
-        msgBox.setDefaultButton(QMessageBox.Save)
-        ret = msgBox.exec_()
-        if ret == QMessageBox.Save:
-            print("need to save")
-        elif ret == QMessageBox.Discard:
+        if not self._modified:
             exit(0)
+        else:
+            msgBox = QMessageBox()
+            msgBox.setText(u"Документ не сохранен")
+            msgBox.setInformativeText(u"Сохранить изменения?")
+            msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+            msgBox.setDefaultButton(QMessageBox.Save)
+            ret = msgBox.exec_()
+            if ret == QMessageBox.Save:
+                self._save()
+                exit(0)
+            elif ret == QMessageBox.Discard:
+                exit(0)
 
     # ------------------------------------------------------------------------------
 
-    def __init__(self):  # Объявляем конструктор класса MyWindow
+    def __init__(self):  # Объявляем конструктор класса MainWindow
         super(MainWindow,
               self).__init__()  # Сначала выполняем действия, предусмотренные конструктором родительского класса
         self.setupUi(self)  # Вызов метода, унаследованного от Ui_BaseWindow для инициализации виджетов класса
 
         self.setFont(QFont('SansSerif', 9))  # Устанавливаем шрифт
-
-
-        # TODO: 1. Добавить скроллбары
-        # ------------------------------------------------------------------------------
-        # scrollArea.setWidget(label2)
-        # self.setWidget(self.scrollArea)
-
-        # self.scrollLayout = QtGui.QFormLayout()
-
-        # scrollWidget = QtGui.QWidget() # cначала создаём сам виджет
-        # scrollWidget.setLayout(self.scrollLayout) # добавляем на него слой
-
-        # scrollArea = QtGui.QScrollArea()
-        # scrollArea.setWidgetResizable(True) #разрешаем проктурку
-        # scrollArea.setWidget(self.scrollWidget)
-
-        # -----------------------------------------
-        # self.gridLayout = QGridLayout(self)
-        # self.scrollArea = QScrollView(self)
-        # self.scrollArea.setGeometry(0, 0, 369, 286)
-        # self.Form1Layout = QGridLayout(self.scrollArea.viewport())
-        # self.gridLayout.addWidget(self.scrollArea, 0, 0)
-        # ------------------------------------------------------------------------------
-
-        # TEST: Тестовые объекты
-        # ------------------------------------------------------------------------------
-        # label1 = QtGui.QLabel(u"Надпись", self)         # Создали объект надпись класса QLabel
-        # label1.move(120, 200)
-        #
-        # edit1 = QtGui.QLineEdit(u"Поле", self)          # Создали объект поле ввода
-        # edit1.move(150, 160)
-        #
-        # button1 = QtGui.QPushButton(u"Кнопка", self)    # Создали объект кнопка, экземпляр класса QPushButton
-        # button1.move(200, 200)
-
 
         # # ==============================================================================
         # # Создание меню - код рабочий, но не используется - перенесено в дизайнер
@@ -243,9 +297,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         toolbar.addAction(self.a_createbt)  # Кнопка тулбара
         toolbar.addAction(self.a_createed)  # Кнопка тулбара
         toolbar.addAction(self.a_createlb)  # Кнопка тулбара
-
         # ------------------------------------------------------------------------------
-
         self.statusBar().showMessage(u"Готов")  # Первоначальная надпись в строке статуса
 
 

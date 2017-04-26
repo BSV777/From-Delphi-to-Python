@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
+
 # var
 #   MainForm: TMainForm
 #   Panel: TPanel
@@ -20,7 +22,7 @@
 #   Tk:integer=0
 #   Wk:integer=0
 #   Hk:integer=0
-#   Modified:boolean=False
+#   modified:boolean=False
 #   DefaultFileName:string='Untitled'
 #   CurrentFileName:string='Untitled'
 #   NeedCreate:integer=0
@@ -325,7 +327,7 @@
 #
 #
 # Refresh(Sender: TObject)
-# Modified  =  True
+# modified  =  True
 # Panel = PanelList.Items[CurrentPanel]
 # with Panel:
 #      if BevelOuter=bvRaised: SgProp.Cells[4, 0] = 'Caption'
@@ -364,7 +366,7 @@
 #   DialogValue,i:integer
 #   TempString:array[0..79] of char
 #   LogName:string
-# if Modified:
+# if modified:
 #      DialogValue = MessageDlg('Сохранить изменения в файле?', mtWarning, [mbYes, mbNo], 0)
 #      if DialogValue=mrYes: mnSaveClick(Sender)
 # if Opialog1.Execute:
@@ -423,7 +425,7 @@
 #                CurrentPanel = Count
 #                Refresh(Sender)
 #           Caption = 'Editor - ' + ExtractFileName(CurrentFileName)
-#           Modified  =  False
+#           modified  =  False
 #           SbDeskClick(Sender)
 #
 # mnSaveClick(Sender: TObject)
@@ -431,7 +433,7 @@
 #   i,p,t:integer
 #   ObjectType, TextProp:string
 #   Sort:array of array of integer
-# Modified  =  False
+# modified  =  False
 # if CurrentFileName=DefaultFileName: MnSaveAsClick(Sender) else
 #      Count = PanelList.Count-1
 #      SetLength(Sort, 3, Count + 1)
@@ -543,10 +545,10 @@
 # mnNewClick(Sender: TObject)
 # var
 #   DialogValue, i:integer
-# if Modified:
+# if modified:
 #      DialogValue = MessageDlg('Сохранить изменения в файле?', mtWarning, [mbYes, mbNo], 0)
 #      if DialogValue=mrYes: mnSaveClick(Sender)
-# Modified = False
+# modified = False
 # CurrentFileName = DefaultFileName
 # Caption = 'Editor - ' + ExtractFileName(CurrentFileName)
 # Count = PanelList.Count-1
@@ -693,7 +695,7 @@
 #
 # FormClose(Sender: TObject var Action: TCloseAction)
 # var DialogValue: Integer
-# if Modified:
+# if modified:
 #      DialogValue = MessageDlg('Сохранить изменения в файле?', mtWarning, [mbYes, mbNo], 0)
 #      if DialogValue=mrYes: mnSaveClick(Sender)
 # if FileExists('editor_tmp.htm'): DeleteFile('editor_tmp.htm')

@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0428cd53-7802-401d-9828-34f9af9baad6" name="Default" comment="Полностью отлажен вывод в HTML">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GUI.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../OriginalDelphiProject/Parser.pas" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Main.pas.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/bad.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/bad.txt1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/test1.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/test2.htm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/test2.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/test3.htm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/test4.htm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/test4.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/test4.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../TestDatasets/test4_etalon.htm" afterPath="" />
+    <list default="true" id="0428cd53-7802-401d-9828-34f9af9baad6" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GUI.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainWindow.py" afterPath="$PROJECT_DIR$/MainWindow.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mBaseWindow.py" afterPath="$PROJECT_DIR$/mBaseWindow.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mBaseWindow.ui" afterPath="$PROJECT_DIR$/mBaseWindow.ui" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mParserTextFile.py" afterPath="$PROJECT_DIR$/mParserTextFile.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,18 +22,44 @@
       <file leaf-file-name="Editor.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Editor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="10" lean-forward="true" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-              <folding />
+            <state relative-caret-position="360">
+              <caret line="24" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <folding>
+                <element signature="e#47#56#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GUI.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/GUI.py">
+      <file leaf-file-name="MainWindow.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/MainWindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="1210">
+              <caret line="169" column="0" lean-forward="true" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+              <folding>
+                <element signature="e#47#56#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mParserTextFile.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mParserTextFile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-45">
+              <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+              <folding>
+                <element signature="e#47#56#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mGUI.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mGUI.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="10455">
+              <caret line="697" column="13" lean-forward="false" selection-start-line="697" selection-start-column="13" selection-end-line="697" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -73,6 +91,8 @@
       <find>IntToStr</find>
       <find>Spc</find>
       <find>s = s +</find>
+      <find>Open</find>
+      <find>Modified</find>
     </findStrings>
     <replaceStrings>
       <replace>array[i][&quot;typ&quot;]</replace>
@@ -83,6 +103,7 @@
       <replace>None</replace>
       <replace>str</replace>
       <replace>s +=</replace>
+      <replace>modified</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -94,17 +115,19 @@
         <option value="$PROJECT_DIR$/ParserTextFile.py" />
         <option value="$PROJECT_DIR$/WriteHTMLFile.py" />
         <option value="$PROJECT_DIR$/Editor.py" />
-        <option value="$PROJECT_DIR$/mParserTextFile.py" />
         <option value="$PROJECT_DIR$/mWriteHTMLFile.py" />
         <option value="$PROJECT_DIR$/GUI.py" />
+        <option value="$PROJECT_DIR$/mParserTextFile.py" />
+        <option value="$PROJECT_DIR$/mGUI.py" />
+        <option value="$PROJECT_DIR$/MainWindow.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="397" />
-    <option name="y" value="132" />
+    <option name="x" value="395" />
+    <option name="y" value="3" />
     <option name="width" value="1203" />
-    <option name="height" value="1015" />
+    <option name="height" value="1165" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -122,7 +145,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -137,6 +159,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -328,22 +351,29 @@
       <option name="project" value="LOCAL" />
       <updated>1493204782084</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Начата отладка функционала редактора">
+      <created>1493208050392</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1493208050392</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="397" y="132" width="1203" height="1015" extended-state="0" />
+    <frame x="395" y="3" width="1203" height="1165" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11240633" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18484597" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297769" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1570338" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15651359" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34301782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -369,15 +399,42 @@
     <MESSAGE value="Частично отлажен вывод в HTML." />
     <MESSAGE value="Частично отлажен вывод в HTML _2" />
     <MESSAGE value="Полностью отлажен вывод в HTML" />
-    <option name="LAST_COMMIT_MESSAGE" value="Полностью отлажен вывод в HTML" />
+    <MESSAGE value="Начата отладка функционала редактора" />
+    <option name="LAST_COMMIT_MESSAGE" value="Начата отладка функционала редактора" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Editor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="37" lean-forward="true" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MainWindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="96" column="58" lean-forward="true" selection-start-line="96" selection-start-column="58" selection-end-line="96" selection-end-column="58" />
+          <folding>
+            <element signature="e#47#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Editor.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -400,7 +457,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -434,7 +490,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1485">
           <caret line="99" column="4" lean-forward="false" selection-start-line="99" selection-start-column="4" selection-end-line="99" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -460,7 +515,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2490">
           <caret line="166" column="37" lean-forward="true" selection-start-line="166" selection-start-column="37" selection-end-line="166" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -486,7 +540,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1185">
           <caret line="79" column="28" lean-forward="false" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -512,7 +565,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2700">
           <caret line="180" column="5" lean-forward="false" selection-start-line="180" selection-start-column="5" selection-end-line="180" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -528,7 +580,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2700">
           <caret line="180" column="5" lean-forward="false" selection-start-line="180" selection-start-column="5" selection-end-line="180" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -544,7 +595,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2700">
           <caret line="180" column="5" lean-forward="true" selection-start-line="180" selection-start-column="5" selection-end-line="180" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -570,7 +620,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -604,7 +653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -640,7 +688,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
           <caret line="54" column="41" lean-forward="true" selection-start-line="54" selection-start-column="41" selection-end-line="54" selection-end-column="41" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -685,14 +732,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mGUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10455">
+          <caret line="697" column="13" lean-forward="false" selection-start-line="697" selection-start-column="13" selection-end-line="697" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mParserTextFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-165">
-          <caret line="31" column="37" lean-forward="true" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="37" />
+        <state relative-caret-position="-45">
+          <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
           <folding>
             <element signature="e#47#56#0" expanded="true" />
           </folding>
@@ -701,17 +763,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Editor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="10" lean-forward="true" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-          <folding />
+        <state relative-caret-position="360">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <element signature="e#47#56#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GUI.py">
+    <entry file="file://$PROJECT_DIR$/MainWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="1210">
+          <caret line="169" column="0" lean-forward="true" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+          <folding>
+            <element signature="e#47#56#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

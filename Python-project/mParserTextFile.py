@@ -9,7 +9,6 @@ MINWIDTH = 21
 DEFAULTHEIGHT = 21
 DEFAULTWIDTH = 70
 
-
 def correctLine(line):  # Чистка строк по краям, восстановление структуры строки
     # Поиск и удаление лишних пробелов.
     tempLine = line.strip()  # Удаляем пробелы по краям

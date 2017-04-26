@@ -16,14 +16,11 @@ except AttributeError:
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
-
-
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
-
 
 class Ui_BaseWindow(object):
     def setupUi(self, BaseWindow):
@@ -31,16 +28,6 @@ class Ui_BaseWindow(object):
         BaseWindow.resize(800, 600)
         self.centralwidget = QtGui.QWidget(BaseWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
-        self.verticalLayoutWidget = QtGui.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 30, 341, 441))
-        self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.label = QtGui.QLabel(self.verticalLayoutWidget)
-        self.label.setObjectName(_fromUtf8("label"))
-        self.verticalLayout.addWidget(self.label)
-        spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem)
         BaseWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(BaseWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 27))
@@ -113,7 +100,6 @@ class Ui_BaseWindow(object):
 
     def retranslateUi(self, BaseWindow):
         BaseWindow.setWindowTitle(_translate("BaseWindow", "MainWindow", None))
-        self.label.setText(_translate("BaseWindow", "TextLabel", None))
         self.m_file.setTitle(_translate("BaseWindow", "&Файл", None))
         self.m_object.setTitle(_translate("BaseWindow", "&Объект", None))
         self.m_help.setTitle(_translate("BaseWindow", "&Справка", None))
@@ -129,11 +115,9 @@ class Ui_BaseWindow(object):
         self.a_saveas.setText(_translate("BaseWindow", "Сохранить &как", None))
         self.a_saveas.setStatusTip(_translate("BaseWindow", "Сохранить схему размещения объектов как...", None))
         self.a_saveasweb.setText(_translate("BaseWindow", "Сохранить как Web-страни&цу", None))
-        self.a_saveasweb.setStatusTip(
-            _translate("BaseWindow", "Сохранить схему размещения объектов как Web-страницу", None))
+        self.a_saveasweb.setStatusTip(_translate("BaseWindow", "Сохранить схему размещения объектов как Web-страницу", None))
         self.a_openasweb.setText(_translate("BaseWindow", "Открыть как &Web-страницу", None))
-        self.a_openasweb.setStatusTip(
-            _translate("BaseWindow", "Открыть схему размещения объектов как Web-страницу", None))
+        self.a_openasweb.setStatusTip(_translate("BaseWindow", "Открыть схему размещения объектов как Web-страницу", None))
         self.a_exit.setText(_translate("BaseWindow", "В&ыход", None))
         self.a_exit.setStatusTip(_translate("BaseWindow", "Выход из программы", None))
         self.a_exit.setShortcut(_translate("BaseWindow", "Ctrl+Q", None))
@@ -149,3 +133,4 @@ class Ui_BaseWindow(object):
         self.a_about.setText(_translate("BaseWindow", "&О программе", None))
         self.a_about.setStatusTip(_translate("BaseWindow", "Сведения о программе", None))
         self.a_about.setShortcut(_translate("BaseWindow", "F1", None))
+
