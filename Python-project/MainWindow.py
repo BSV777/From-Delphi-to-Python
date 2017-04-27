@@ -19,6 +19,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     _modified = False  # Схема не была модифицирована или была сохранена
     _fileName = None
     _fileNameWeb = None
+    _objList = []
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
@@ -81,11 +82,13 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
             self._createFile()
 
     def _createFile(self):
-        print("_create")  # DEBUG: Отладочный вывод
         self._modified = False  # Схема не была модифицирована или была сохранена
         self._fileName = None
         self._fileNameWeb = None
         self.setWindowTitle(u"Editor - ")
+        for i in self._objList:  # Удаляем объекты на форме
+            i.deleteLater()
+        self._objList = []
 
     def _open(self):
         if self._modified:
@@ -103,76 +106,92 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
             self._readFile()
 
     def _readFile(self):
-        self._fileName = QFileDialog.getOpenFileName(self, u"Открыть файл")
-        # TODO: Сделать проверку ситуации отказа от открытия
-        dir = os.path.dirname(self._fileName)
-        name, ext = os.path.splitext(os.path.basename(self._fileName))
-        if os.path.exists(self._fileName):  # Если входной файл существует вызываем парсер
-            self._modified = False  # Схема не была модифицирована или была сохранена
-            self.setWindowTitle(u"Editor - " + name)
-            array = []  # Список объектов с их свойствами. Каждый объект представлен словарем
-            if mParserTextFile.ParserTextFile(self._fileName, array):  # Ошибки были записаны в лог
-                msgBox = QMessageBox()
-                msgBox.setText(u"Input file contains errors.")
-                msgBox.setInformativeText(u"See log file: " + os.path.join(dir, name + ".log"))
-                ret = msgBox.exec_()
-            #----------------------------------------------------------------------------------
-            # for i = 1 to High(Prop_s):
-            #     PanelList.Add(TPanel.Create(Self))
-            #     Count = PanelList.Count-1
-            #     Panel = PanelList.Items[Count]
-            #     with Panel:
-            #         Parent = SbDesk
-            #             case Prop_i[0, i] of
-            #             1:
-            #                 BevelOuter = bvRaised
-            #                 Color = clBtnFace
-            #                 Alignment = taCenter
-            #             2:
-            #                 BevelOuter = bvLowered
-            #                 Color = clHighlightText
-            #                 Alignment = taLeftJustify
-            #             3:
-            #                 BevelOuter = bvNone
-            #                 Color = clBtnFace
-            #                 Alignment = taLeftJustify
-            #         Tag = Count
-            #         Cursor = crSizeAll
-            #         BevelWidth = 2
-            #         Caption = Prop_s[i]
-            #         TabOrder = 0
-            #         PopupMenu = PopupMenu1
-            #         OnMouseDown = PanelMouseDown
-            #         OnMouseMove = PanelMouseMove
-            #     Lk = Prop_i[1, i]-sbDesk.HorzScrollBar.Position
-            #     Tk = Prop_i[2, i]-sbDesk.VertScrollBar.Position
-            #     Wk = Prop_i[3, i]
-            #     Hk = Prop_i[4, i]
-            #     CurrentPanel = Count
-            #     Refresh(Sender)
-            # SbDeskClick(Sender)
-            # ----------------------------------------------------------------------------------
+        typ = {"Button": 1, "TextEdit": 2, "Label": 3}
+        self._fileName = unicode(QFileDialog.getOpenFileName(self, u"Открыть файл"))
+        if self._fileName is not None:  # Если пользователь указал имя файла
+            dir = os.path.dirname(self._fileName)
+            name, ext = os.path.splitext(os.path.basename(self._fileName))
+            if os.path.exists(str(self._fileName)):  # Если входной файл существует вызываем парсер
+                self._modified = False  # Схема не была модифицирована или была сохранена
+                self.setWindowTitle(u"Editor - " + name)
+                array = []  # Список объектов с их свойствами. Каждый объект представлен словарем
+                if mParserTextFile.ParserTextFile(self._fileName, array):  # Ошибки были записаны в лог
+                    msgBox = QMessageBox()
+                    msgBox.setText(u"--- Input file contains errors. See log file: ---")
+                    msgBox.setInformativeText(os.path.join(dir, name + ".log"))
+                    ret = msgBox.exec_()
+                for i in self._objList:  # Удаляем объекты на форме
+                    i.deleteLater()
+                self._objList = []
+                for i in range(len(array)):
+                    if array[i]["typ"] == typ["Button"]:  # Создали объект кнопка, экземпляр класса QPushButton
+                        self._objList.append(QtGui.QPushButton(array[i]["text"], self))
+                    elif array[i]["typ"] == typ["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
+                        self._objList.append(QtGui.QLineEdit(array[i]["text"], self))
+                    elif array[i]["typ"] == typ["Label"]:  # Создали объект надпись, экземпляр класса QLabel
+                        self._objList.append(QtGui.QLabel(array[i]["text"], self))
+                    self._objList[-1].move(MINLEFT + array[i]["left"], MINTOP + array[i]["top"])
+                    self._objList[-1].setFixedSize(array[i]["width"], array[i]["height"])
+                    self._objList[-1].show()
 
     def _save(self):
         if self._fileName is None:  # Не присвоено имя файла
             self._saveas()
         else:
-            # TODO: Здесь сделать сохранение в файл
-            print("_save")  # DEBUG: Отладочный вывод
-            # TODO: Сделать проверку успешности сохранения
+            with open(self._fileName, "w") as f:
+                for obj in self._objList:
+                    rect = obj.geometry()
+                    size = u"left=\"" + str(rect.x() - MINLEFT) + "\"; top=\"" + str(rect.y() - MINTOP) + \
+                           "\"; width=\"" + str(rect.width()) + "\"; height=\"" + str(rect.height()) + "\"; "
+                    if type(obj) is QPushButton:  # Сохраняемый объект есть экземпляр класса QPushButton
+                        s = u"<Button " + size + u"caption=\"" + str(obj.text()) + "\">"
+                    elif type(obj) is QLineEdit:  # Сохраняемый объект есть экземпляр класса QLineEdit
+                        s = u"<TextEdit " + size + u"text=\"" + str(obj.text()) + "\">"
+                    elif type(obj) is QLabel:  # Сохраняемый объект есть экземпляр класса QLabel
+                        s = u"<Label " + size + u"text=\"" + str(obj.text()) + "\">"
+                    f.write(s + '\n')
             self._modified = False  # Схема не была модифицирована или была сохранена
 
     def _saveas(self):
-        self._fileName = QFileDialog.getSaveFileName(self, u"Сохранить файл как")
-        # TODO: Сделать проверку ситуации отказа от сохранения
-        self.setWindowTitle(u"Editor - " + self._fileName)
-        self._save()
+        self._fileName = unicode(QFileDialog.getSaveFileName(self, u"Сохранить файл как"))
+        if self._fileName is not None:  # Если пользователь указал имя файла
+            self.setWindowTitle(u"Editor - " + self._fileName)
+            self._save()
 
     def _saveasweb(self):
-        self._fileNameWeb = QFileDialog.getOpenFileName(self, u"Сохранить файл как Web-страницу")
+        self._fileNameWeb = unicode(QFileDialog.getSaveFileName(self, u"Сохранить файл как Web-страницу"))
+        if self._fileName is not None:  # Если пользователь указал имя файла
+            self._createWeb()
+
+    def _createWeb(self):
+        typ = {"Button": 1, "TextEdit": 2, "Label": 3}
+        array = []
+        i = 0
+        for obj in self._objList:
+            # Создаем новый элемент списка
+            array.append({"text": "", "typ": 0, "left": 0, "top": 0, "width": 0, "height": 0, "colspan": 0, "rowspan": 0})
+            rect = obj.geometry()
+            array[i]["left"] = rect.x() - MINLEFT
+            array[i]["top"] = rect.y() - MINTOP
+            array[i]["width"] = rect.width()
+            array[i]["height"] = rect.height()
+            array[i]["text"] = obj.text()
+            if type(obj) is QPushButton:  # Сохраняемый объект есть экземпляр класса QPushButton
+                array[i]["typ"] = typ["Button"]
+            elif type(obj) is QLineEdit:  # Сохраняемый объект есть экземпляр класса QLineEdit
+                array[i]["typ"] = typ["TextEdit"]
+            elif type(obj) is QLabel:  # Сохраняемый объект есть экземпляр класса QLabel
+                array[i]["typ"] = typ["Label"]
+            i += 1
+        mWriteHTMLFile.WriteHTMLFile(self._fileNameWeb, array)
+
 
     def _openasweb(self):
-        print("_openasweb")  # DEBUG: Отладочный вывод
+        self._fileNameWeb = 'editor_py_tmp.htm'
+        self._createWeb()
+        # TODO: Здесь вызвать внешний браузер с открытием файла editor_py_tmp.htm
+
+
 
     def _exit(self):
         if not self._modified:

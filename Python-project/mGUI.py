@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
+# Сюда перенесены и частично преобразованы из формата Delphi некоторые функции GUI, которые должны быть реализованы в проекте
 
 # var
 #   MainForm: TMainForm
@@ -360,156 +360,6 @@
 # mnExitClick(Sender: TObject)
 # Close
 #
-#
-# mnOpenClick(Sender: TObject)
-# var
-#   DialogValue,i:integer
-#   TempString:array[0..79] of char
-#   LogName:string
-# if modified:
-#      DialogValue = MessageDlg('Сохранить изменения в файле?', mtWarning, [mbYes, mbNo], 0)
-#      if DialogValue=mrYes: mnSaveClick(Sender)
-# if Opialog1.Execute:
-#      CurrentFileName = Opialog1.FileName
-#      {$I-}
-#      AssignFile(F, CurrentFileName)
-#      Reset(F)
-#      CloseFile(F)
-#      {$I + }
-#      if IOResult=0:
-#           Count = PanelList.Count-1
-#           for i = Count:wnto 0:
-#                Panel = PanelList.Items[i]
-#                PanelList.Delete(i)
-#                Panel.Free
-#           if OpenTextFile(CurrentFileName, Prop_i, Prop_s):
-#                LogName = Copy(ExtractFileName(CurrentFileName),1,Length(ExtractFileName(CurrentFileName))-4) + '.log'
-#                DialogValue = MessageDlg('В конфигурации обнаружены ошибки.' + Chr(13) + Chr(10) + 'Подробности в журнале: ' +
-#                LogName + Chr(13) + Chr(10) + 'Открыть ' + LogName + ' ?', mtWarning, [mbYes, mbNo], 0)
-#                if DialogValue=mrYes:
-#                     StrPCopy(TempString, LogName)
-#                     ShellExecute(0, Nil, TempString, Nil, Nil, SW_NORMAL)
-#           for i = 1 to High(Prop_s):
-#                PanelList.Add(TPanel.Create(Self))
-#                Count = PanelList.Count-1
-#                Panel = PanelList.Items[Count]
-#                with Panel:
-#                     Parent = SbDesk
-#                          case Prop_i[0, i] of
-#                          1:
-#                               BevelOuter = bvRaised
-#                               Color = clBtnFace
-#                               Alignment = taCenter
-#
-#                          2:
-#                               BevelOuter = bvLowered
-#                               Color = clHighlightText
-#                               Alignment = taLeftJustify
-#
-#                          3:
-#                               BevelOuter = bvNone
-#                               Color = clBtnFace
-#                               Alignment = taLeftJustify
-#                     Tag = Count
-#                     Cursor = crSizeAll
-#                     BevelWidth = 2
-#                     Caption = Prop_s[i]
-#                     TabOrder = 0
-#                     PopupMenu = PopupMenu1
-#                     OnMouseDown = PanelMouseDown
-#                     OnMouseMove = PanelMouseMove
-#                Lk = Prop_i[1, i]-sbDesk.HorzScrollBar.Position
-#                Tk = Prop_i[2, i]-sbDesk.VertScrollBar.Position
-#                Wk = Prop_i[3, i]
-#                Hk = Prop_i[4, i]
-#                CurrentPanel = Count
-#                Refresh(Sender)
-#           Caption = 'Editor - ' + ExtractFileName(CurrentFileName)
-#           modified  =  False
-#           SbDeskClick(Sender)
-#
-# mnSaveClick(Sender: TObject)
-# var
-#   i,p,t:integer
-#   ObjectType, TextProp:string
-#   Sort:array of array of integer
-# modified  =  False
-# if CurrentFileName=DefaultFileName: MnSaveAsClick(Sender) else
-#      Count = PanelList.Count-1
-#      SetLength(Sort, 3, Count + 1)
-#      for i = 0 to Count: # Подготовка массива для сортировки Top, Left
-#           Sort[0,i] = i
-#           Panel = PanelList.Items[i]
-#           Sort[1,i] = Panel.Left
-#           Sort[2,i] = Panel.Top
-#      repeat # Сортировка по параметру Left
-#      p = 0
-#      for i = 0 to Count-1:
-#           if Sort[1, i]>Sort[1, i + 1]:
-#                t = Sort[0, i]
-#                Sort[0, i] = Sort[0, i + 1]
-#                Sort[0, i + 1] = t
-#                t = Sort[1, i]
-#                Sort[1, i] = Sort[1, i + 1]
-#                Sort[1, i + 1] = t
-#                t = Sort[2, i]
-#                Sort[2, i] = Sort[2, i + 1]
-#                Sort[2, i + 1] = t
-#                p = p + 1
-#      until p=0
-#      repeat # Сортировка по параметру Top
-#      p = 0
-#      for i = 0 to Count-1:
-#           if Sort[2, i]>Sort[2, i + 1]:
-#                t = Sort[0, i]
-#                Sort[0, i] = Sort[0, i + 1]
-#                Sort[0, i + 1] = t
-#                t = Sort[1, i]
-#                Sort[1, i] = Sort[1, i + 1]
-#                Sort[1, i + 1] = t
-#                t = Sort[2, i]
-#                Sort[2, i] = Sort[2, i + 1]
-#                Sort[2, i + 1] = t
-#                p = p + 1
-#      until p=0
-#      AssignFile(F, CurrentFileName)
-#      Rewrite(F)
-#      for i = 0 to Count:
-#           Panel = PanelList.Items[Sort[0,i]]
-#           with Panel:
-#                if BevelOuter=bvRaised: ObjectType = 'Button'
-#                if BevelOuter=bvLowered: ObjectType = 'TextEdit'
-#                if BevelOuter=bvNone: ObjectType = 'Label'
-#                if ObjectType='Button': TextProp = 'caption' else TextProp = 'text'
-#                Write(F, '<' + ObjectType)
-#                Write(F, ' left="' + IntToStr(Left + sbDesk.HorzScrollBar.Position) + '"')
-#                Write(F, ' top="' + IntToStr(Top + sbDesk.VertScrollBar.Position) + '"')
-#                Write(F, ' width="' + IntToStr(Width) + '"')
-#                if ObjectType != 'TextEdit': Write(F, ' height="' + IntToStr(Height) + '"')
-#                Writeln(F, ' ' + TextProp + '="' + Caption + '">')
-#      CloseFile(F)
-#
-# mnSaveAsClick(Sender: TObject)
-# var
-#   DialogValue, i:integer
-#   FileName:string
-# FileName = CurrentFileName
-# i = Pos('.', FileName)
-# if i != 0: Delete(FileName, i, Length(FileName)-i + 1)
-# FileName = FileName + '.txt'
-# SaveDialog1.FileName  =  FileName
-# SaveDialog1.Filter = 'Text files (*.txt)|*.txt|All files|*.*'
-# if SaveDialog1.Execute:
-#      FileName = SaveDialog1.FileName
-#      i = Pos('.', FileName)
-#      if i=0: FileName = FileName + '.txt'
-#      DialogValue = mrYes
-#      if FileExists(FileName)then DialogValue = MessageDlg('Файл ' + ExtractFileName(FileName) + ' существует. Перезаписать?', mtWarning, [mbYes, mbNo], 0)
-#      if DialogValue=mrYes:
-#           CurrentFileName = FileName
-#           Caption = 'Editor - ' + ExtractFileName(CurrentFileName)
-#           MnSaveClick(Sender)
-#
 # mnSaveWebClick(Sender: TObject)
 # var
 #   DialogValue,i,j:integer
@@ -541,22 +391,6 @@
 #           DialogValue = mrYes
 #           if FileExists(HTMLFileName)then DialogValue = MessageDlg('Файл ' + ExtractFileName(HTMLFileName) + ' существует. Перезаписать?', mtWarning, [mbYes, mbNo], 0)
 #           if DialogValue=mrYes: WriteHTMLFile(HTMLFileName, Prop_i, Prop_s)
-#
-# mnNewClick(Sender: TObject)
-# var
-#   DialogValue, i:integer
-# if modified:
-#      DialogValue = MessageDlg('Сохранить изменения в файле?', mtWarning, [mbYes, mbNo], 0)
-#      if DialogValue=mrYes: mnSaveClick(Sender)
-# modified = False
-# CurrentFileName = DefaultFileName
-# Caption = 'Editor - ' + ExtractFileName(CurrentFileName)
-# Count = PanelList.Count-1
-# for i = Count:wnto 0:
-#      Panel = PanelList.Items[i]
-#      PanelList.Delete(i)
-#      Panel.Free
-# SbDeskClick(Sender)
 #
 #
 # sbCrBtnClick(Sender: TObject)
