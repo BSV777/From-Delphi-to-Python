@@ -3,13 +3,22 @@
 
 import os
 import sys
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import *
+import webbrowser
+
 import mBaseWindow  # Импортируем базовую форму, нарисованную в дизайнере
 import mParserTextFile
 import mWriteHTMLFile
 
-from mGUI import *
+#from mGUI import *
+
+MINHEIGHT = 21
+MINWIDTH = 21
+DEFAULTHEIGHT = 21
+DEFAULTWIDTH = 70
+
+TYP = {"Button": 1, "TextEdit": 2, "Label": 3}
 
 MINTOP = 65
 MINLEFT = 1
@@ -20,53 +29,80 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     _fileName = None
     _fileNameWeb = None
     _objList = []
+    _newOperation = None  # Указание на требуемую операцию с объектом:
+    # None - не требуется, 0 - редактирование/удаление, 1, 2, 3 - создание в соответствии с TYP
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
     # TODO: Создать QScrollArea (возможно в UI)
     # ------------------------------------------------------------------------------
 
+    # PointingHandCursor  # Курсор указывающий на объект
+    # OpenHandCursor    # Курсор перед перемещением
+    # ClosedHandCursor  # Курсор при перемещении
+    # SizeVerCursor     # Курсор при изменении высоты
+    # SizeHorCursor     # Курсор при изменении ширины
+    # SizeBDiagCursor   # Курсор при изменении высоты и ширины - вторичная диагональ
+    # SizeFDiagCursor   # Курсор при изменении - главная диагональ
+
+
     def _select(self):
-        print("_select")  # DEBUG: Отладочный вывод
+        self.statusBar().showMessage(u"Выберите объект для редактирования")
+        self._newOperation = 0
+        self.unsetCursor()
 
     def _createbt(self):
-        print("_createbt")  # DEBUG: Отладочный вывод
-        self._modified = True
-        self.button1 = QtGui.QPushButton(u"Кнопка", self)  # Создали объект кнопка, экземпляр класса QPushButton
-        self.button1.move(MINLEFT, MINTOP)
-        self.button1.show()
-
+        self.statusBar().showMessage(u"Кликните на поле, чтобы создать PushButton")
+        self._newOperation = TYP["Button"]
+        self.setCursor(QtCore.Qt.CrossCursor)
 
     def _createed(self):
-        print("_createed")  # DEBUG: Отладочный вывод
-        self._modified = True
-        self.edit1 = QtGui.QLineEdit(u"Поле", self)    # Создали объект поле ввода, экземпляр класса QLineEdit
-        self.edit1.move(150, 160)
-        self.edit1.show()
-
-
+        self.statusBar().showMessage(u"Кликните на поле, чтобы создать LineEdit")
+        self._newOperation = TYP["TextEdit"]
+        self.setCursor(QtCore.Qt.CrossCursor)
 
     def _createlb(self):
-        print("_createlb")  # DEBUG: Отладочный вывод
-        self._modified = True
-        self.label1 = QtGui.QLabel(u"Надпись2", self)   # Создали объект надпись класса QLabel
-        self.label1.move(100, 150)
-        self.label1.show()
+        self.statusBar().showMessage(u"Кликните на поле, чтобы создать Label")
+        self._newOperation = TYP["Label"]
+        self.setCursor(QtCore.Qt.CrossCursor)
 
+    def mousePressEvent(self, event):
+        if self._newOperation == TYP["Button"]:  # Создали объект кнопка, экземпляр класса QPushButton
+            self._objList.append(QtGui.QPushButton(u"Button", self))
+            self._objList[-1].move(event.x(), event.y())
+            self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+            self._objList[-1].show()
+            self._modified = True
+        elif self._newOperation == TYP["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
+            self._objList.append(QtGui.QLineEdit(u"Edit", self))
+            self._objList[-1].move(event.x(), event.y())
+            self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+            self._objList[-1].show()
+            self._modified = True
+        elif self._newOperation == TYP["Label"]:  # Создали объект надпись, экземпляр класса QLabel
+            self._objList.append(QtGui.QLabel(u"Label", self))
+            self._objList[-1].move(event.x(), event.y())
+            self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+            self._objList[-1].show()
+            self._modified = True
+        self._modified = True
+        return QMainWindow.mousePressEvent(self, event)
 
     def _delobj(self):
-        print("_delobj")  # DEBUG: Отладочный вывод
-        self._modified = True
-
+        self._newOperation = 0
+        self.unsetCursor()
 
     def _about(self):
-        print("_about")  # DEBUG: Отладочный вывод
+        self._newOperation = None  # Отмена требуемой операции с объектом
+        self.unsetCursor()    # Возврат курсора по умолчанию
         msgBox = QMessageBox()
         msgBox.setText(u"--------------    О программе   --------------")
         msgBox.setInformativeText(u"Редактор визуального размещения компонентов")
         ret = msgBox.exec_()
 
     def _create(self):
+        self._newOperation = None  # Отмена требуемой операции с объектом
+        self.unsetCursor()    # Возврат курсора по умолчанию
         if self._modified:
             msgBox = QMessageBox()
             msgBox.setText(u"Документ не сохранен")
@@ -89,8 +125,11 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         for i in self._objList:  # Удаляем объекты на форме
             i.deleteLater()
         self._objList = []
+        self.statusBar().showMessage(u"Готов")  # Первоначальная надпись в строке статуса
 
     def _open(self):
+        self._newOperation = None  # Отмена требуемой операции с объектом
+        self.unsetCursor()    # Возврат курсора по умолчанию
         if self._modified:
             msgBox = QMessageBox()
             msgBox.setText(u"Документ не сохранен")
@@ -106,7 +145,6 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
             self._readFile()
 
     def _readFile(self):
-        typ = {"Button": 1, "TextEdit": 2, "Label": 3}
         self._fileName = unicode(QFileDialog.getOpenFileName(self, u"Открыть файл"))
         if self._fileName is not None:  # Если пользователь указал имя файла
             dir = os.path.dirname(self._fileName)
@@ -124,17 +162,19 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                     i.deleteLater()
                 self._objList = []
                 for i in range(len(array)):
-                    if array[i]["typ"] == typ["Button"]:  # Создали объект кнопка, экземпляр класса QPushButton
+                    if array[i]["typ"] == TYP["Button"]:  # Создали объект кнопка, экземпляр класса QPushButton
                         self._objList.append(QtGui.QPushButton(array[i]["text"], self))
-                    elif array[i]["typ"] == typ["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
+                    elif array[i]["typ"] == TYP["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
                         self._objList.append(QtGui.QLineEdit(array[i]["text"], self))
-                    elif array[i]["typ"] == typ["Label"]:  # Создали объект надпись, экземпляр класса QLabel
+                    elif array[i]["typ"] == TYP["Label"]:  # Создали объект надпись, экземпляр класса QLabel
                         self._objList.append(QtGui.QLabel(array[i]["text"], self))
                     self._objList[-1].move(MINLEFT + array[i]["left"], MINTOP + array[i]["top"])
                     self._objList[-1].setFixedSize(array[i]["width"], array[i]["height"])
                     self._objList[-1].show()
 
     def _save(self):
+        self._newOperation = None  # Отмена требуемой операции с объектом
+        self.unsetCursor()    # Возврат курсора по умолчанию
         if self._fileName is None:  # Не присвоено имя файла
             self._saveas()
         else:
@@ -153,61 +193,62 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
             self._modified = False  # Схема не была модифицирована или была сохранена
 
     def _saveas(self):
+        self._newOperation = None  # Отмена требуемой операции с объектом
+        self.unsetCursor()    # Возврат курсора по умолчанию
         self._fileName = unicode(QFileDialog.getSaveFileName(self, u"Сохранить файл как"))
         if self._fileName is not None:  # Если пользователь указал имя файла
             self.setWindowTitle(u"Editor - " + self._fileName)
             self._save()
 
     def _saveasweb(self):
+        self._newOperation = None  # Отмена требуемой операции с объектом
+        self.unsetCursor()    # Возврат курсора по умолчанию
         self._fileNameWeb = unicode(QFileDialog.getSaveFileName(self, u"Сохранить файл как Web-страницу"))
         if self._fileName is not None:  # Если пользователь указал имя файла
             self._createWeb()
 
     def _createWeb(self):
-        typ = {"Button": 1, "TextEdit": 2, "Label": 3}
         array = []
-        i = 0
         for obj in self._objList:
             # Создаем новый элемент списка
             array.append({"text": "", "typ": 0, "left": 0, "top": 0, "width": 0, "height": 0, "colspan": 0, "rowspan": 0})
             rect = obj.geometry()
-            array[i]["left"] = rect.x() - MINLEFT
-            array[i]["top"] = rect.y() - MINTOP
-            array[i]["width"] = rect.width()
-            array[i]["height"] = rect.height()
-            array[i]["text"] = obj.text()
+            array[-1]["left"] = rect.x() - MINLEFT
+            array[-1]["top"] = rect.y() - MINTOP
+            array[-1]["width"] = rect.width()
+            array[-1]["height"] = rect.height()
+            array[-1]["text"] = obj.text()
             if type(obj) is QPushButton:  # Сохраняемый объект есть экземпляр класса QPushButton
-                array[i]["typ"] = typ["Button"]
+                array[-1]["typ"] = TYP["Button"]
             elif type(obj) is QLineEdit:  # Сохраняемый объект есть экземпляр класса QLineEdit
-                array[i]["typ"] = typ["TextEdit"]
+                array[-1]["typ"] = TYP["TextEdit"]
             elif type(obj) is QLabel:  # Сохраняемый объект есть экземпляр класса QLabel
-                array[i]["typ"] = typ["Label"]
-            i += 1
+                array[-1]["typ"] = TYP["Label"]
         mWriteHTMLFile.WriteHTMLFile(self._fileNameWeb, array)
 
 
     def _openasweb(self):
-        self._fileNameWeb = 'editor_py_tmp.htm'
+        self._newOperation = None  # Отмена требуемой операции с объектом
+        self.unsetCursor()    # Возврат курсора по умолчанию
+        dir = os.path.abspath(os.curdir)
+        self._fileNameWeb = os.path.join(dir, "editor_py_tmp.htm")
         self._createWeb()
-        # TODO: Здесь вызвать внешний браузер с открытием файла editor_py_tmp.htm
-
-
+        webbrowser.open(self._fileNameWeb)
 
     def _exit(self):
-        if not self._modified:
-            exit(0)
-        else:
+        self._newOperation = None  # Отмена требуемой операции с объектом
+        self.unsetCursor()    # Возврат курсора по умолчанию
+        if self._modified:
             msgBox = QMessageBox()
             msgBox.setText(u"Документ не сохранен")
             msgBox.setInformativeText(u"Сохранить изменения?")
-            msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+            msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard)
             msgBox.setDefaultButton(QMessageBox.Save)
             ret = msgBox.exec_()
             if ret == QMessageBox.Save:
                 self._save()
-                exit(0)
-            elif ret == QMessageBox.Discard:
-                exit(0)
+        # TODO: Проверить существование файла editor_py_tmp.htm и удалить
+        exit(0)
 
     # ------------------------------------------------------------------------------
 
@@ -308,7 +349,6 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         # Создание тулбара
         # ------------------------------------------------------------------------------
         a_select = QtGui.QAction(QtGui.QIcon('icons/obj.png'), u"Выбор объекта", self)
-        a_select.setStatusTip(u"Редактировать существующий объект")
         a_select.triggered.connect(self._select)
 
         toolbar = self.addToolBar(u"Панель инструментов")

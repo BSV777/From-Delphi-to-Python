@@ -3,11 +3,6 @@
 
 # Сюда перенесены и частично преобразованы из формата Delphi некоторые функции GUI, которые должны быть реализованы в проекте
 
-# var
-#   MainForm: TMainForm
-#   Panel: TPanel
-#   CurrentPanel, Count, CurrentShape:integer
-#   PanelList:TList
 #
 # const
 #   X0:integer=0
@@ -22,10 +17,6 @@
 #   Tk:integer=0
 #   Wk:integer=0
 #   Hk:integer=0
-#   modified:boolean=False
-#   DefaultFileName:string='Untitled'
-#   CurrentFileName:string='Untitled'
-#   NeedCreate:integer=0
 #   Valid:boolean=True
 #
 #
@@ -360,62 +351,6 @@
 # mnExitClick(Sender: TObject)
 # Close
 #
-# mnSaveWebClick(Sender: TObject)
-# var
-#   DialogValue,i,j:integer
-#   HTMLFileName:string
-# j = 1
-# SetLength(Prop_i, 7, 1)
-# SetLength(Prop_s, 1)
-# for i = 0 to MainForm.ComponentCount-1: if MainForm.Components[i] is TPanel:
-#      with TPanel(MainForm.Components[i]):
-#      SetLength(Prop_i, 7, j + 1)
-#      SetLength(Prop_s, j + 1)
-#      if BevelOuter=bvRaised: Prop_i[0, j] = 1
-#      if BevelOuter=bvLowered: Prop_i[0, j] = 2
-#      if BevelOuter=bvNone: Prop_i[0, j] = 3
-#      Prop_i[1, j] = Left + sbDesk.HorzScrollBar.Position
-#      Prop_i[2, j] = Top + sbDesk.VertScrollBar.Position
-#      Prop_i[3, j] = Width
-#      Prop_i[4, j] = Height
-#      Prop_s[j] = Caption
-#      j = j + 1
-# if j>1:
-#      HTMLFileName = CurrentFileName
-#      i = Pos('.', HTMLFileName)
-#      if i != 0: Delete(HTMLFileName, i, Length(HTMLFileName)-i + 1)
-#      SaveDialog1.FileName =  HTMLFileName + '.htm'
-#      SaveDialog1.Filter = 'HTML files (*.htm *.html)|*.htm *.html|All files|*.*'
-#      if SaveDialog1.Execute:
-#           HTMLFileName = SaveDialog1.FileName
-#           DialogValue = mrYes
-#           if FileExists(HTMLFileName)then DialogValue = MessageDlg('Файл ' + ExtractFileName(HTMLFileName) + ' существует. Перезаписать?', mtWarning, [mbYes, mbNo], 0)
-#           if DialogValue=mrYes: WriteHTMLFile(HTMLFileName, Prop_i, Prop_s)
-#
-#
-# sbCrBtnClick(Sender: TObject)
-# sbCrBtn.Down = True
-# NeedCreate = 1
-# sbDesk.Cursor = crDrag
-# SbDesk.Hint = 'Новая кнопка'
-# SbDesk.ShowHint =  True
-#
-#
-# sbCrTxtClick(Sender: TObject)
-# sbCrTxt.Down = True
-# NeedCreate = 2
-# sbDesk.Cursor = crDrag
-# SbDesk.Hint = 'Новое поле ввода'
-# SbDesk.ShowHint =  True
-#
-#
-# sbCrLabClick(Sender: TObject)
-# sbCrLab.Down = True
-# NeedCreate = 3
-# sbDesk.Cursor = crDrag
-# SbDesk.Hint = 'Новая надпись'
-# SbDesk.ShowHint =  True
-#
 #
 # pmDelClick(Sender: TObject)
 # var i:integer
@@ -527,12 +462,6 @@
 #      mnDel.Enabled = False
 #      mnDel.ShortCut = ShortCut(0, [])
 #
-# FormClose(Sender: TObject var Action: TCloseAction)
-# var DialogValue: Integer
-# if modified:
-#      DialogValue = MessageDlg('Сохранить изменения в файле?', mtWarning, [mbYes, mbNo], 0)
-#      if DialogValue=mrYes: mnSaveClick(Sender)
-# if FileExists('editor_tmp.htm'): DeleteFile('editor_tmp.htm')
 #
 # SgPropClick(Sender: TObject)
 # mnDel.Enabled = False
@@ -607,29 +536,4 @@
 #            else
 #           sbDesk.Cursor = crNoDrop
 #           SbDesk.ShowHint = False
-#
-# mnViewWebClick(Sender: TObject)
-# var
-# TempString : array[0..79] of char
-# i,j:integer
-# j = 1
-# SetLength(Prop_i, 7, 1)
-# SetLength(Prop_s, 1)
-# for i = 0 to MainForm.ComponentCount-1: if MainForm.Components[i] is TPanel:
-#      with TPanel(MainForm.Components[i]):
-#      SetLength(Prop_i, 7, j + 1)
-#      SetLength(Prop_s, j + 1)
-#      if BevelOuter=bvRaised: Prop_i[0, j] = 1
-#      if BevelOuter=bvLowered: Prop_i[0, j] = 2
-#      if BevelOuter=bvNone: Prop_i[0, j] = 3
-#      Prop_i[1, j] = Left + sbDesk.HorzScrollBar.Position
-#      Prop_i[2, j] = Top + sbDesk.VertScrollBar.Position
-#      Prop_i[3, j] = Width
-#      Prop_i[4, j] = Height
-#      Prop_s[j] = Caption
-#      j = j + 1
-# if j>1:
-#      WriteHTMLFile('editor_tmp.htm', Prop_i, Prop_s)
-#      StrPCopy(TempString, 'editor_tmp.htm')
-#      ShellExecute(0, Nil, TempString, Nil, Nil, SW_NORMAL)
 #

@@ -135,9 +135,6 @@
    <property name="text">
     <string>Создать &amp;кнопку</string>
    </property>
-   <property name="statusTip">
-    <string>Создать кнопку на форме</string>
-   </property>
   </action>
   <action name="a_createed">
    <property name="icon">
@@ -146,9 +143,6 @@
    </property>
    <property name="text">
     <string>Создать &amp;поле ввода</string>
-   </property>
-   <property name="statusTip">
-    <string>Создать поле ввода на форме</string>
    </property>
   </action>
   <action name="a_createlb">
@@ -159,16 +153,10 @@
    <property name="text">
     <string>Создать &amp;надпись</string>
    </property>
-   <property name="statusTip">
-    <string>Создать надпись на форме</string>
-   </property>
   </action>
   <action name="a_delobj">
    <property name="text">
     <string>У&amp;далить объект</string>
-   </property>
-   <property name="statusTip">
-    <string>Удалить выбранный объект</string>
    </property>
    <property name="shortcut">
     <string>Del</string>
