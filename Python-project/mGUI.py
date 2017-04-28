@@ -519,21 +519,3 @@
 #      CurrentPanel = Count
 #      Refresh(Sender)
 #
-# SbDeskMouseMove(Sender: TObject Shift: TShiftState X, Y: Integer)
-# var
-#   i:integer
-# if NeedCreate != 0:
-#           i = 0
-#           Valid = True
-#           repeat
-#           if MainForm.Components[i] is TPanel: with TPanel(MainForm.Components[i]):
-#           if (Y + DefaultHeight>Top) and (Y<Top + Height) and (X + DefaultWidth>Left) and (X<Left + Width)then Valid = False
-#           i = i + 1
-#           until (Valid=False)or(i=MainForm.ComponentCount)
-#      if Valid:
-#           sbDesk.Cursor = crDrag
-#           SbDesk.ShowHint = True
-#            else
-#           sbDesk.Cursor = crNoDrop
-#           SbDesk.ShowHint = False
-#

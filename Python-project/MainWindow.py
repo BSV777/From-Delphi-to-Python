@@ -37,14 +37,15 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     # TODO: Создать QScrollArea (возможно в UI)
     # ------------------------------------------------------------------------------
 
+    # Использовать типы курсора
     # PointingHandCursor  # Курсор указывающий на объект
-    # OpenHandCursor    # Курсор перед перемещением
-    # ClosedHandCursor  # Курсор при перемещении
-    # SizeVerCursor     # Курсор при изменении высоты
-    # SizeHorCursor     # Курсор при изменении ширины
-    # SizeBDiagCursor   # Курсор при изменении высоты и ширины - вторичная диагональ
-    # SizeFDiagCursor   # Курсор при изменении - главная диагональ
-
+    # OpenHandCursor      # Курсор перед перемещением
+    # ClosedHandCursor    # Курсор при перемещении
+    # SizeVerCursor       # Курсор при изменении высоты
+    # SizeHorCursor       # Курсор при изменении ширины
+    # SizeBDiagCursor     # Курсор при изменении высоты и ширины - вторичная диагональ
+    # SizeFDiagCursor     # Курсор при изменении - главная диагональ
+    # ForbiddenCursor     # Курсор при невозможности помещения объекта в текущую позицию
 
     def _select(self):
         self.statusBar().showMessage(u"Выберите объект для редактирования")
@@ -54,6 +55,8 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     def _createbt(self):
         self.statusBar().showMessage(u"Кликните на поле, чтобы создать PushButton")
         self._newOperation = TYP["Button"]
+        self.setMouseTracking(True)
+        self.grabMouse()
         self.setCursor(QtCore.Qt.CrossCursor)
 
     def _createed(self):
@@ -85,8 +88,40 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
             self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
             self._objList[-1].show()
             self._modified = True
-        self._modified = True
         return QMainWindow.mousePressEvent(self, event)
+
+
+    # def leaveEvent(self, event):
+    #     self.releaseMouse()
+    #     return QMainWindow.leaveEvent(self, event)
+
+    """
+    Отслеживаем перемещение мыши над формой. При установленной переменной _newOperation проверяем, возможно ли
+    поместить созданный объект в текущую позицию. Если возможно - курсор имеет вид CrossCursor иначе ForbiddenCursor
+    """
+    def mouseMoveEvent(self, event):
+        # TODO: Добавить проверку _newOperation
+        x = event.x()
+        y = event.y()
+        valid = True
+        for obj in self._objList:
+            rect = obj.geometry()
+            if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
+                and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
+                valid = False
+            # TODO: Сделать valid глобальной
+            if valid:
+                self.setCursor(QtCore.Qt.CrossCursor)
+            else:
+                self.setCursor(QtCore.Qt.ForbiddenCursor)
+        # TODO: Решить проблему с освобождением курсора
+        if x < MINLEFT:
+            self.releaseMouse()
+        return QMainWindow.mouseMoveEvent(self, event)
+
+    def closeEvent(self, event):
+        self._exit()
+        return QMainWindow.closeEvent(self, event)
 
     def _delobj(self):
         self._newOperation = 0
@@ -251,8 +286,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         exit(0)
 
     # ------------------------------------------------------------------------------
-
-    def __init__(self):  # Объявляем конструктор класса MainWindow
+    def __init__(self):  # Конструктор класса MainWindow
         super(MainWindow,
               self).__init__()  # Сначала выполняем действия, предусмотренные конструктором родительского класса
         self.setupUi(self)  # Вызов метода, унаследованного от Ui_BaseWindow для инициализации виджетов класса
