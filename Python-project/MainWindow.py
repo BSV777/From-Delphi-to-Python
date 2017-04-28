@@ -31,6 +31,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     _objList = []
     _newOperation = None  # Указание на требуемую операцию с объектом:
     # None - не требуется, 0 - редактирование/удаление, 1, 2, 3 - создание в соответствии с TYP
+    _canPlaceObject = False
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
@@ -56,38 +57,53 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self.statusBar().showMessage(u"Кликните на поле, чтобы создать PushButton")
         self._newOperation = TYP["Button"]
         self.setMouseTracking(True)
-        self.grabMouse()
+        #self.grabMouse()
         self.setCursor(QtCore.Qt.CrossCursor)
 
     def _createed(self):
         self.statusBar().showMessage(u"Кликните на поле, чтобы создать LineEdit")
         self._newOperation = TYP["TextEdit"]
+        self.setMouseTracking(True)
+        #self.grabMouse()
         self.setCursor(QtCore.Qt.CrossCursor)
 
     def _createlb(self):
         self.statusBar().showMessage(u"Кликните на поле, чтобы создать Label")
         self._newOperation = TYP["Label"]
+        self.setMouseTracking(True)
+        #self.grabMouse()        
         self.setCursor(QtCore.Qt.CrossCursor)
 
     def mousePressEvent(self, event):
-        if self._newOperation == TYP["Button"]:  # Создали объект кнопка, экземпляр класса QPushButton
-            self._objList.append(QtGui.QPushButton(u"Button", self))
-            self._objList[-1].move(event.x(), event.y())
-            self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
-            self._objList[-1].show()
-            self._modified = True
-        elif self._newOperation == TYP["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
-            self._objList.append(QtGui.QLineEdit(u"Edit", self))
-            self._objList[-1].move(event.x(), event.y())
-            self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
-            self._objList[-1].show()
-            self._modified = True
-        elif self._newOperation == TYP["Label"]:  # Создали объект надпись, экземпляр класса QLabel
-            self._objList.append(QtGui.QLabel(u"Label", self))
-            self._objList[-1].move(event.x(), event.y())
-            self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
-            self._objList[-1].show()
-            self._modified = True
+        x = event.x()
+        y = event.y()
+        self._canPlaceObject = True
+        for obj in self._objList:
+            rect = obj.geometry()
+            if x < MINLEFT or y < MINTOP:
+                self._canPlaceObject = False
+            if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
+                and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
+                self._canPlaceObject = False
+        if self._canPlaceObject:
+            if self._newOperation == TYP["Button"]:  # Создали объект кнопка, экземпляр класса QPushButton
+                self._objList.append(QtGui.QPushButton(u"Button", self))
+                self._objList[-1].move(event.x(), event.y())
+                self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+                self._objList[-1].show()
+                self._modified = True
+            elif self._newOperation == TYP["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
+                self._objList.append(QtGui.QLineEdit(u"Edit", self))
+                self._objList[-1].move(event.x(), event.y())
+                self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+                self._objList[-1].show()
+                self._modified = True
+            elif self._newOperation == TYP["Label"]:  # Создали объект надпись, экземпляр класса QLabel
+                self._objList.append(QtGui.QLabel(u"Label", self))
+                self._objList[-1].move(event.x(), event.y())
+                self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+                self._objList[-1].show()
+                self._modified = True
         return QMainWindow.mousePressEvent(self, event)
 
 
@@ -99,25 +115,27 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     Отслеживаем перемещение мыши над формой. При установленной переменной _newOperation проверяем, возможно ли
     поместить созданный объект в текущую позицию. Если возможно - курсор имеет вид CrossCursor иначе ForbiddenCursor
     """
-    def mouseMoveEvent(self, event):
-        # TODO: Добавить проверку _newOperation
-        x = event.x()
-        y = event.y()
-        valid = True
-        for obj in self._objList:
-            rect = obj.geometry()
-            if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
-                and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
-                valid = False
-            # TODO: Сделать valid глобальной
-            if valid:
-                self.setCursor(QtCore.Qt.CrossCursor)
-            else:
-                self.setCursor(QtCore.Qt.ForbiddenCursor)
-        # TODO: Решить проблему с освобождением курсора
-        if x < MINLEFT:
-            self.releaseMouse()
-        return QMainWindow.mouseMoveEvent(self, event)
+    # def mouseMoveEvent(self, event):
+    #     # TODO: Добавить проверку _newOperation
+    #     x = event.x()
+    #     y = event.y()
+    #     if x > MINLEFT and y > MINTOP:
+    #         self._canPlaceObject = True
+    #         for obj in self._objList:
+    #             rect = obj.geometry()
+    #             if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
+    #                 and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
+    #                 self._canPlaceObject = False                
+    #             if self._canPlaceObject:
+    #                 self.setCursor(QtCore.Qt.CrossCursor)
+    #             else:
+    #                 self.setCursor(QtCore.Qt.ForbiddenCursor)
+    #         # TODO: Решить проблему с освобождением курсора
+    #         if x < MINLEFT:
+    #             self.releaseMouse()
+    #         else:
+    #             self._canPlaceObject = False
+    #     return QMainWindow.mouseMoveEvent(self, event)
 
     def closeEvent(self, event):
         self._exit()
