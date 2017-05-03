@@ -21,6 +21,8 @@ TYP = {"Button": 1, "TextEdit": 2, "Label": 3}
 MINTOP = 65
 MINLEFT = 1
 
+# TODO: Осталось реализовать перемещение и масштабирование объектов
+
 # Класс MainWindow, унаследованный от QMainWindow и Ui_BaseWindow - из дизайнера
 class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     _modified = False  # Схема не была модифицирована или была сохранена
