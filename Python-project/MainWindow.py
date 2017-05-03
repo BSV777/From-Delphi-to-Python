@@ -11,8 +11,6 @@ import mBaseWindow  # Импортируем базовую форму, нари
 import mParserTextFile
 import mWriteHTMLFile
 
-#from mGUI import *
-
 MINHEIGHT = 21
 MINWIDTH = 21
 DEFAULTHEIGHT = 21
