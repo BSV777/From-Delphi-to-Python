@@ -78,7 +78,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self.setMouseTracking(True)
         self.setCursor(QtCore.Qt.CrossCursor)
 
-    # TODO: Разобраться с дрожанием Button и Label
+    # TODO: Устранить рекурсивный вызов: QWidget::repaint: Recursive repaint detected
     # Перехватываем события
     def eventFilter(self, obj, event):
         if (event.type() == QtCore.QEvent.HoverMove) and (type(obj) is MainWindow):
@@ -113,8 +113,8 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                         and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
                         self._canPlaceObject = False
             if self._canPlaceObject:
-                self._currentObj.move(x, y)
-                print(obj, "Mouse: [" + str(x) + ", " + str(y) + "]")
+                #self._currentObj.move(x, y)
+                self.statusBar().showMessage("[" + str(x) + ", " + str(y) + "]")
         return False
 
 
