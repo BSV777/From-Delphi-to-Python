@@ -5,6 +5,7 @@ import os
 import sys
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import *
+from PyQt4.QtCore import Qt
 import webbrowser
 
 import mBaseWindow  # Импортируем базовую форму, нарисованную в дизайнере
@@ -32,6 +33,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     _newOperation = None  # Указание на требуемую операцию с объектом:
     # None - не требуется, 0 - редактирование/удаление, 1, 2, 3 - создание в соответствии с TYP
     _canPlaceObject = False
+    _currentObj = None
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
@@ -74,6 +76,33 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         #self.grabMouse()        
         self.setCursor(QtCore.Qt.CrossCursor)
 
+    # TODO: По клику на объекте нужно получать ссылку на сам объект, а событие обрабатывать не нужно
+    def objClick(self, event):
+        #pass
+        if event.buttons() == Qt.LeftButton:
+            _currentObj = self.sender()
+            print(_currentObj)
+
+    # Перехватываем события
+    # TODO: Разобраться как перехватывать одновременно меняющиеся координаты и состояния кнопок мыши
+    def eventFilter(self, object, event):
+        if event.type() == QtCore.QEvent.HoverMove:
+            mousePosition = event.pos()
+            self.statusBar().showMessage("Mouse: [" + mousePosition.x().__str__() + ", " + mousePosition.y().__str__() + "]")
+            # if event.buttons() == Qt.LeftButton:
+            #     print("left")
+            return True
+        elif event.type() == QtCore.QEvent.MouseButtonPress:
+            print(object)
+            if type(object) is not MainWindow:
+                return True
+
+        # elif event.type() == QtCore.QEvent.MouseButtonPress:
+        #     print(type(self))
+        #     if type(object) is not MainWindow:
+        #         return True
+        return False
+
     def mousePressEvent(self, event):
         x = event.x()
         y = event.y()
@@ -88,18 +117,21 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         if self._canPlaceObject:
             if self._newOperation == TYP["Button"]:  # Создали объект кнопка, экземпляр класса QPushButton
                 self._objList.append(QtGui.QPushButton(u"Button", self))
+                #self._objList[-1].mousePressEvent = self.objClick
                 self._objList[-1].move(event.x(), event.y())
                 self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
                 self._objList[-1].show()
                 self._modified = True
             elif self._newOperation == TYP["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
                 self._objList.append(QtGui.QLineEdit(u"Edit", self))
+                self._objList[-1].mousePressEvent = self.objClick
                 self._objList[-1].move(event.x(), event.y())
                 self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
                 self._objList[-1].show()
                 self._modified = True
             elif self._newOperation == TYP["Label"]:  # Создали объект надпись, экземпляр класса QLabel
                 self._objList.append(QtGui.QLabel(u"Label", self))
+                self._objList[-1].mousePressEvent = self.objClick
                 self._objList[-1].move(event.x(), event.y())
                 self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
                 self._objList[-1].show()
@@ -119,6 +151,9 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     #     # TODO: Добавить проверку _newOperation
     #     x = event.x()
     #     y = event.y()
+    #     if event.buttons() != Qt.LeftButton:
+    #         return
+
     #     if x > MINLEFT and y > MINTOP:
     #         self._canPlaceObject = True
     #         for obj in self._objList:
@@ -409,6 +444,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         toolbar.addAction(self.a_createed)  # Кнопка тулбара
         toolbar.addAction(self.a_createlb)  # Кнопка тулбара
         # ------------------------------------------------------------------------------
+        self.installEventFilter(self)
         self.statusBar().showMessage(u"Готов")  # Первоначальная надпись в строке статуса
 
 

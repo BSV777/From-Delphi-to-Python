@@ -20,13 +20,6 @@
 #   Valid:boolean=True
 #
 #
-# mnAboutClick(Sender: TObject)
-# AboutBox = nil
-#      try
-#      AboutBox = TAboutBox.Create(Self)
-#      AboutBox.ShowModal
-#      finally
-#      if Assigned(AboutBox): AboutBox.Release
 #
 # FormCreate(Sender: TObject)
 # var i:integer
@@ -52,12 +45,6 @@
 # PanelList = TList.Create
 # MnNewClick(Sender)
 #
-#
-# FormResize(Sender: TObject)
-# SbDesk.Width = Width-11
-# SbDesk.Height = Height-89
-# SgProp.Width = Width-164
-# SgProp.ColWidths[4] = Width-333
 #
 #
 # PanelMouseMove(Sender: TObject Shift: TShiftState X, Y: Integer)
@@ -285,37 +272,6 @@
 #      Refresh(Sender)
 #
 #
-# pmBtnClick(Sender: TObject)
-# Panel = PanelList.Items[CurrentPanel]
-# Panel.BevelOuter = bvRaised
-# Panel.Color = clBtnFace
-# Panel.Alignment = taCenter
-# SgProp.Cells[4, 0] = 'Caption'
-# STopCenter.Visible = True
-# SBottomCenter.Visible = True
-# Refresh(Sender)
-#
-#
-# pmTxtClick(Sender: TObject)
-# Panel = PanelList.Items[CurrentPanel]
-# Panel.BevelOuter = bvLowered
-# Panel.Color = clHighlightText
-# Panel.Alignment = taLeftJustify
-# Hk = MinHeight
-# SgProp.Cells[4, 0] = 'Text'
-# STopCenter.Visible = False
-# SBottomCenter.Visible = False
-# Refresh(Sender)
-#
-#
-# pmLabClick(Sender: TObject)
-# Panel = PanelList.Items[CurrentPanel]
-# Panel.BevelOuter = bvNone
-# Panel.Color = clBtnFace
-# Panel.Alignment = taLeftJustify
-# SgProp.Cells[4, 0] = 'Text'
-# Refresh(Sender)
-#
 #
 # Refresh(Sender: TObject)
 # modified  =  True
@@ -466,56 +422,4 @@
 # SgPropClick(Sender: TObject)
 # mnDel.Enabled = False
 # mnDel.ShortCut = ShortCut(0, [])
-#
-# sbSelectClick(Sender: TObject)
-# sbDesk.Cursor = crDefault
-# sbSelect.Down = True
-# NeedCreate = 0
-# SbDesk.ShowHint = False
-#
-# SbDeskMouseDown(Sender: TObject Button: TMouseButton Shift: TShiftState X, Y: Integer)
-# if (NeedCreate != 0) and Valid:
-#      PanelList.Add(TPanel.Create(Self))
-#      Count = PanelList.Count-1
-#      Panel = PanelList.Items[Count]
-#      with Panel:
-#           Parent = SbDesk
-#           Tag = Count
-#           Cursor = crSizeAll
-#           BevelWidth = 2
-#           PopupMenu = PopupMenu1
-#           OnMouseDown = PanelMouseDown
-#           OnMouseUp = PanelMouseDown
-#           OnMouseMove = PanelMouseMove
-#      Lk = X
-#      Tk = Y
-#      Wk = DefaultWidth
-#      Hk = DefaultHeight
-#           case NeedCreate of
-#           1:
-#                SgProp.Cells[4, 0] = 'Caption'
-#                with Panel:
-#                     BevelOuter = bvRaised
-#                     Color = clBtnFace
-#                     Alignment = taCenter
-#                     Caption = 'Button' + IntToStr(Count)
-#           2:
-#                SgProp.Cells[4, 0] = 'Text'
-#                with Panel:
-#
-#                     BevelOuter = bvLowered
-#                     Color = clHighlightText
-#                     Alignment = taLeftJustify
-#                     Caption = 'TextEdit' + IntToStr(Count)
-#           3:
-#                SgProp.Cells[4, 0] = 'Text'
-#                with Panel:
-#
-#                     BevelOuter = bvNone
-#                     Color = clBtnFace
-#                     Alignment = taLeftJustify
-#                     Caption = 'Label' + IntToStr(Count)
-#      sbSelectClick(Sender)
-#      CurrentPanel = Count
-#      Refresh(Sender)
 #
