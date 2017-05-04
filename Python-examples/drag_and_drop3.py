@@ -20,8 +20,8 @@ class Button(QPushButton):
         y = e.y()
         #self.setWindowTitle(
         #print("Mouse: [" + mousePosition.x().__str__() + ", " + mousePosition.y().__str__() + "]")
-        print(str(x),str(y))
-        #self.move(x, y)
+        #print(str(x),str(y))
+        self.move(x, y)
 
     def mousePressEvent(self, e):
         pass
