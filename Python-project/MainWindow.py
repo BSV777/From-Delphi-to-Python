@@ -12,6 +12,8 @@ import mBaseWindow  # Импортируем базовую форму, нари
 import mParserTextFile
 import mWriteHTMLFile
 
+# TODO: Сделать совместимым с Python 3 и Qt 5
+
 MINHEIGHT = 21
 MINWIDTH = 21
 DEFAULTHEIGHT = 21
@@ -23,7 +25,7 @@ DIR = {"NO": 0, "Left": 1, "Right": 2, "Top": 3, "Bottom": 4, "TopLeft": 5, "Top
 MINTOP = 65
 MINLEFT = 1
 
-# TODO: Осталось реализовать перемещение, масштабирование и удаление объектов
+# TODO: Осталось реализовать масштабирование и удаление объектов
 
 # Класс MainWindow, унаследованный от QMainWindow и Ui_BaseWindow - из дизайнера
 class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
@@ -88,11 +90,13 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
             self._currY = event.pos().y()
             x = self._currX - self._currDX
             y = self._currY - self._currDY
+            # Перемещаем объект
             if self._toMove:
                 # Проверяем, возможно ли переместить объект в текущую позицию.
+                # TODO: Здесь заменить DEFAULTHEIGHT и DEFAULTWIDTH на размеры текущего объекта
                 self._canPlaceObject = True
                 for ob in self._objList:
-                    if ob is not self._currentObj:
+                    if ob is not self._currentObj: # Не проверять на пересечение с самим собой
                         rect = ob.geometry()
                         if x < MINLEFT or y < MINTOP:
                             self._canPlaceObject = False
@@ -101,6 +105,40 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                             self._canPlaceObject = False
                 if self._canPlaceObject:
                     self._currentObj.move(x, y)
+            # Масштабируем объект
+            if self._toResize != DIR["NO"]:
+                # TODO: Здесь проверяем все мозможные направления и вычисляем новые размеры и координаты
+                if self._toResize == DIR["Left"]:
+                    pass
+                if self._toResize == DIR["Right"]:
+                    pass
+                if self._toResize == DIR["Top"]:
+                    pass
+                if self._toResize == DIR["Bottom"]:
+                    pass
+                if self._toResize == DIR["TopLeft"]:
+                    pass
+                if self._toResize == DIR["TopRight"]:
+                    pass
+                if self._toResize == DIR["BottomLeft"]:
+                    pass
+                if self._toResize == DIR["BottomRight"]:
+                    pass
+
+                # Проверяем, возможно ли изменить объект до указанных размеров.
+                # TODO: Здесь заменить DEFAULTHEIGHT и DEFAULTWIDTH на новые размеры объекта
+                self._canPlaceObject = True
+                for ob in self._objList:
+                    if ob is not self._currentObj: # Не проверять на пересечение с самим собой
+                        rect = ob.geometry()
+                        if x < MINLEFT or y < MINTOP:
+                            self._canPlaceObject = False
+                        if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
+                            and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
+                            self._canPlaceObject = False
+                if self._canPlaceObject:
+                    # self._currentObj.setGeometry(x, y, width, height)
+                    pass
         return QMainWindow.event(self, event)
 
     # Перехватываем события от объектов на форме
@@ -108,21 +146,46 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         if type(obj) is not MainWindow:
             # При первоначальном нажатии на объект запоминаем координаты курсора внутри объекта, чтобы учесть их как смещение
             # Запоминаем данный объект и устанавливаем флаг перемещения
-            if event.type() == QtCore.QEvent.MouseButtonPress and not self._toMove:
+            if event.type() == QtCore.QEvent.MouseButtonPress and not self._toMove and self._toResize == DIR["NO"]:
+                self._currentObj = obj
                 self._currDX = event.pos().x()
                 self._currDY = event.pos().y()
-                self._currentObj = obj
-                self._toMove = True
-                self.setCursor(QtCore.Qt.ClosedHandCursor)
+                # TODO: Здесь описать все условия попадания на границу или в углы и в соответствии назначить направление и тип курсора
+                if True:
+                    self._toResize = DIR["Left"]
+                    self.setCursor(QtCore.Qt.SizeHorCursor)
+                elif True:
+                    self._toResize = DIR["Right"]
+                    self.setCursor(QtCore.Qt.SizeHorCursor)
+                elif True:
+                    self._toResize = DIR["Top"]
+                    self.setCursor(QtCore.Qt.SizeVerCursor)
+                elif True:
+                    self._toResize = DIR["Bottom"]
+                    self.setCursor(QtCore.Qt.SizeVerCursor)
+                elif True:
+                    self._toResize = DIR["TopLeft"]
+                    self.setCursor(QtCore.Qt.SizeFDiagCursor)
+                elif True:
+                    self._toResize = DIR["TopRight"]
+                    self.setCursor(QtCore.Qt.SizeBDiagCursor)
+                elif True:
+                    self._toResize = DIR["BottomLeft"]
+                    self.setCursor(QtCore.Qt.SizeBDiagCursor)
+                elif True:
+                    self._toResize = DIR["BottomRight"]
+                    self.setCursor(QtCore.Qt.SizeFDiagCursor)
+                else:
+                    self._toMove = True
+                    self.setCursor(QtCore.Qt.ClosedHandCursor)
                 self._newOperation = 0
-                #self._currentObj.setStyleSheet('border-style: solid; border-width: 1px; border-color: black;')
             # При отпускании мыши на объекте сбрасываем флаг перемещения
             if event.type() == QtCore.QEvent.MouseButtonRelease:
                 self._currentObj = None
                 self._toMove = False
+                self._toResize = DIR["NO"]
                 self.unsetCursor()
                 self._newOperation = 0
-                #obj.setStyleSheet('border-style: none; border-width: 0px; border-color: black;')
         return False
 
     def mousePressEvent(self, event):
