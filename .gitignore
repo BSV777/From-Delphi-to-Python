@@ -1,4 +1,5 @@
 *.pyc
 .idea
 *.log
+editor_py_tmp.htm
 
