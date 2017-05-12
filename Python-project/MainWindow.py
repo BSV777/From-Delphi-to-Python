@@ -18,6 +18,7 @@ DEFAULTHEIGHT = 21
 DEFAULTWIDTH = 70
 
 TYP = {"Button": 1, "TextEdit": 2, "Label": 3}
+DIR = {"NO": 0, "Left": 1, "Right": 2, "Top": 3, "Bottom": 4, "TopLeft": 5, "TopRight": 6, "BottomLeft": 7, "BottomRight": 8}
 
 MINTOP = 65
 MINLEFT = 1
@@ -39,6 +40,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     _currY = 0
     _currDX = 0
     _currDY = 0
+    _toResize = DIR["NO"]
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
