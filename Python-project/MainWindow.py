@@ -78,45 +78,50 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self.setMouseTracking(True)
         self.setCursor(QtCore.Qt.CrossCursor)
 
-    # TODO: Устранить рекурсивный вызов: QWidget::repaint: Recursive repaint detected
-    # Перехватываем события
-    def eventFilter(self, obj, event):
-        if (event.type() == QtCore.QEvent.HoverMove) and (type(obj) is MainWindow):
+    # Перехватываем события формы
+    def event(self, event):
+        # Следим за перемещением мыши
+        if event.type() == QtCore.QEvent.HoverMove:
             self._currX = event.pos().x()
             self._currY = event.pos().y()
-        if not self._toMove and event.type() == QtCore.QEvent.MouseButtonPress and type(obj) is not MainWindow:
-            self._currDX = event.pos().x()
-            self._currDY = event.pos().y()
-            self._currentObj = obj
-            self._toMove = True
-            self.setCursor(QtCore.Qt.ClosedHandCursor)
-            self._newOperation = 0
-            #self._currentObj.setStyleSheet('border-style: solid; border-width: 1px; border-color: black;')
-
-        if event.type() == QtCore.QEvent.MouseButtonRelease and (type(obj) is not MainWindow):
-            self._currentObj = None
-            self._toMove = False
-            self.unsetCursor()
-            self._newOperation = 0
-            #obj.setStyleSheet('border-style: none; border-width: 0px; border-color: black;')
-        if self._toMove and type(obj) is not MainWindow:
             x = self._currX - self._currDX
             y = self._currY - self._currDY
-            # Проверяем, возможно ли переместить объект в текущую позицию.
-            self._canPlaceObject = True
-            for obj in self._objList:
-                if obj is not self._currentObj:
-                    rect = obj.geometry()
-                    if x < MINLEFT or y < MINTOP:
-                        self._canPlaceObject = False
-                    if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
-                        and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
-                        self._canPlaceObject = False
-            if self._canPlaceObject:
-                #self._currentObj.move(x, y)
-                self.statusBar().showMessage("[" + str(x) + ", " + str(y) + "]")
-        return False
+            if self._toMove:
+                # Проверяем, возможно ли переместить объект в текущую позицию.
+                self._canPlaceObject = True
+                for ob in self._objList:
+                    if ob is not self._currentObj:
+                        rect = ob.geometry()
+                        if x < MINLEFT or y < MINTOP:
+                            self._canPlaceObject = False
+                        if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
+                            and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
+                            self._canPlaceObject = False
+                if self._canPlaceObject:
+                    self._currentObj.move(x, y)
+        return QMainWindow.event(self, event)
 
+    # Перехватываем события от объектов на форме
+    def eventFilter(self, obj, event):
+        if type(obj) is not MainWindow:
+            # При первоначальном нажатии на объект запоминаем координаты курсора внутри объекта, чтобы учесть их как смещение
+            # Запоминаем данный объект и устанавливаем флаг перемещения
+            if event.type() == QtCore.QEvent.MouseButtonPress and not self._toMove:
+                self._currDX = event.pos().x()
+                self._currDY = event.pos().y()
+                self._currentObj = obj
+                self._toMove = True
+                self.setCursor(QtCore.Qt.ClosedHandCursor)
+                self._newOperation = 0
+                #self._currentObj.setStyleSheet('border-style: solid; border-width: 1px; border-color: black;')
+            # При отпускании мыши на объекте сбрасываем флаг перемещения
+            if event.type() == QtCore.QEvent.MouseButtonRelease:
+                self._currentObj = None
+                self._toMove = False
+                self.unsetCursor()
+                self._newOperation = 0
+                #obj.setStyleSheet('border-style: none; border-width: 0px; border-color: black;')
+        return False
 
     def mousePressEvent(self, event):
         x = event.x()
