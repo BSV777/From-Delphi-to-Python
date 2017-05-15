@@ -25,7 +25,7 @@ DIR = {"NO": 0, "Left": 1, "Right": 2, "Top": 3, "Bottom": 4, "TopLeft": 5, "Top
 MINTOP = 65
 MINLEFT = 1
 
-# TODO: Осталось реализовать масштабирование и удаление объектов
+# TODO: Реализовать удаление объектов и скроллинг рабочей области
 
 # Класс MainWindow, унаследованный от QMainWindow и Ui_BaseWindow - из дизайнера
 class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
@@ -43,6 +43,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
     _currDX = 0
     _currDY = 0
     _toResize = DIR["NO"]
+    _geo = None
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
@@ -97,7 +98,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 curr_width = self._currentObj.geometry().width()
                 self._canPlaceObject = True
                 for ob in self._objList:
-                    if ob is not self._currentObj: # Не проверять на пересечение с самим собой
+                    if ob is not self._currentObj:  # Не проверять на пересечение с самим собой
                         rect = ob.geometry()
                         if x < MINLEFT or y < MINTOP:
                             self._canPlaceObject = False
@@ -108,52 +109,52 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                     self._currentObj.move(x, y)
             # Масштабируем объект
             if self._toResize != DIR["NO"]:
-                # TODO: Здесь проверяем все мозможные направления и вычисляем новые размеры и координаты
+                # Проверяем все возможные направления и вычисляем новые размеры и координаты
                 if self._toResize == DIR["Left"]:
                     x = self._currX - self._currDX
-                    y = self._currentObj.geometry().y()
-                    height = self._currentObj.geometry().height()
-                    width = 11111
+                    y = self._geo.y()
+                    height = self._geo.height()
+                    width = self._geo.width() + self._geo.x() - x
                 if self._toResize == DIR["Right"]:
-                    x = self._currentObj.geometry().x()
-                    y = self._currentObj.geometry().y()
-                    height = self._currentObj.geometry().height()
-                    width = 11111
+                    x = self._geo.x()
+                    y = self._geo.y()
+                    height = self._geo.height()
+                    width = self._geo.width() + self._currX - self._currDX - x
                 if self._toResize == DIR["Top"]:
-                    x = self._currentObj.geometry().x()
+                    x = self._geo.x()
                     y = self._currY - self._currDY
-                    height = 11111
-                    width = self._currentObj.geometry().width()
+                    height = self._geo.y() + self._geo.height() - y
+                    width = self._geo.width()
                 if self._toResize == DIR["Bottom"]:
-                    x = self._currentObj.geometry().x()
-                    y = self._currentObj.geometry().y()
-                    height = 11111
-                    width = self._currentObj.geometry().width()
+                    x = self._geo.x()
+                    y = self._geo.y()
+                    height = self._geo.height() + self._currY - self._currDY - y
+                    width = self._geo.width()
                 if self._toResize == DIR["TopLeft"]:
                     x = self._currX - self._currDX
                     y = self._currY - self._currDY
-                    height = 11111
-                    width = 11111
+                    height = self._geo.height() + self._geo.y() - y
+                    width = self._geo.width() + self._geo.x() - x
                 if self._toResize == DIR["TopRight"]:
-                    x = self._currentObj.geometry().x()
+                    x = self._geo.x()
                     y = self._currY - self._currDY
-                    height = 11111
-                    width = 11111
+                    height = self._geo.height() + self._geo.y() - y
+                    width = self._geo.width() + self._currX - self._currDX - x
                 if self._toResize == DIR["BottomLeft"]:
-                    x = 11111
-                    y = self._currentObj.geometry().y()
-                    height = 11111
-                    width = 11111
+                    x = self._currX - self._currDX
+                    y = self._geo.y()
+                    height = self._geo.height() + self._currY - self._currDY - y
+                    width = self._geo.width() + self._geo.x() - x
                 if self._toResize == DIR["BottomRight"]:
-                    x = self._currentObj.geometry().x()
-                    y = self._currentObj.geometry().y()
-                    height = 11111
-                    width = 11111
+                    x = self._geo.x()
+                    y = self._geo.y()
+                    height = self._geo.height() + self._currY - self._currDY - y
+                    width = self._geo.width() + self._currX - self._currDX - x
 
                 # Проверяем, возможно ли изменить объект до указанных размеров.
                 self._canPlaceObject = True
                 for ob in self._objList:
-                    if ob is not self._currentObj: # Не проверять на пересечение с самим собой
+                    if ob is not self._currentObj:  # Не проверять на пересечение с самим собой
                         rect = ob.geometry()
                         if x < MINLEFT or y < MINTOP:
                             self._canPlaceObject = False
@@ -161,7 +162,8 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                             and (x + width > rect.x()) and (x < rect.x() + rect.width()):
                             self._canPlaceObject = False
                 if self._canPlaceObject:
-                    self._currentObj.setGeometry(x, y, width, height)
+                    self._currentObj.move(x, y)
+                    self._currentObj.setFixedSize(width, height)
         return QMainWindow.event(self, event)
 
     # Перехватываем события от объектов на форме
@@ -169,33 +171,62 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         if type(obj) is not MainWindow:
             # При первоначальном нажатии на объект запоминаем координаты курсора внутри объекта, чтобы учесть их как смещение
             # Запоминаем данный объект и устанавливаем флаг перемещения
+            if event.type() == QtCore.QEvent.HoverMove:
+                self.unsetCursor()
+                dy_top = event.pos().y()
+                dy_bottom = obj.geometry().height() - event.pos().y()
+                dx_left = event.pos().x()
+                dx_right = obj.geometry().width() - event.pos().x()
+                if dy_top > 3 and dy_bottom > 3 and dx_left <= 3 and dx_right > 3:
+                    self.setCursor(QtCore.Qt.SizeHorCursor)
+                elif dy_top > 3 and dy_bottom > 3 and dx_left > 3 and dx_right <= 3:
+                    self.setCursor(QtCore.Qt.SizeHorCursor)
+                elif dy_top <= 3 and dy_bottom > 3 and dx_left > 3 and dx_right > 3:
+                    self.setCursor(QtCore.Qt.SizeVerCursor)
+                elif dy_top > 3 and dy_bottom <= 3 and dx_left > 3 and dx_right > 3:
+                    self.setCursor(QtCore.Qt.SizeVerCursor)
+                elif dy_top <= 3 and dy_bottom > 3 and dx_left <= 3 and dx_right > 3:
+                    self.setCursor(QtCore.Qt.SizeFDiagCursor)
+                elif dy_top <= 3 and dy_bottom > 3 and dx_left > 3 and dx_right <= 3:
+                    self.setCursor(QtCore.Qt.SizeBDiagCursor)
+                elif dy_top > 3 and dy_bottom <= 3 and dx_left <= 3 and dx_right > 3:
+                    self.setCursor(QtCore.Qt.SizeBDiagCursor)
+                elif dy_top > 3 and dy_bottom <= 3 and dx_left > 3 and dx_right <= 3:
+                    self.setCursor(QtCore.Qt.SizeFDiagCursor)
+
             if event.type() == QtCore.QEvent.MouseButtonPress and not self._toMove and self._toResize == DIR["NO"]:
+                self.unsetCursor()
                 self._currentObj = obj
+                self._geo = self._currentObj.geometry()
                 self._currDX = event.pos().x()
                 self._currDY = event.pos().y()
-                # TODO: Здесь описать все условия попадания на границу или в углы и в соответствии назначить направление и тип курсора
-                if True:
+                dy_top = self._currDY
+                dy_bottom = self._currentObj.geometry().height() - self._currDY
+                dx_left = self._currDX
+                dx_right = self._currentObj.geometry().width() - self._currDX
+                # Условия попадания на границу или в углы и назначение в соответствии направление и тип курсора
+                if dy_top > 3 and dy_bottom > 3 and dx_left <= 3 and dx_right > 3:
                     self._toResize = DIR["Left"]
                     self.setCursor(QtCore.Qt.SizeHorCursor)
-                elif True:
+                elif dy_top > 3 and dy_bottom > 3 and dx_left > 3 and dx_right <= 3:
                     self._toResize = DIR["Right"]
                     self.setCursor(QtCore.Qt.SizeHorCursor)
-                elif True:
+                elif dy_top <= 3 and dy_bottom > 3 and dx_left > 3 and dx_right > 3:
                     self._toResize = DIR["Top"]
                     self.setCursor(QtCore.Qt.SizeVerCursor)
-                elif True:
+                elif dy_top > 3 and dy_bottom <= 3 and dx_left > 3 and dx_right > 3:
                     self._toResize = DIR["Bottom"]
                     self.setCursor(QtCore.Qt.SizeVerCursor)
-                elif True:
+                elif dy_top <= 3 and dy_bottom > 3 and dx_left <= 3 and dx_right > 3:
                     self._toResize = DIR["TopLeft"]
                     self.setCursor(QtCore.Qt.SizeFDiagCursor)
-                elif True:
+                elif dy_top <= 3 and dy_bottom > 3 and dx_left > 3 and dx_right <= 3:
                     self._toResize = DIR["TopRight"]
                     self.setCursor(QtCore.Qt.SizeBDiagCursor)
-                elif True:
+                elif dy_top > 3 and dy_bottom <= 3 and dx_left <= 3 and dx_right > 3:
                     self._toResize = DIR["BottomLeft"]
                     self.setCursor(QtCore.Qt.SizeBDiagCursor)
-                elif True:
+                elif dy_top > 3 and dy_bottom <= 3 and dx_left > 3 and dx_right <= 3:
                     self._toResize = DIR["BottomRight"]
                     self.setCursor(QtCore.Qt.SizeFDiagCursor)
                 else:
