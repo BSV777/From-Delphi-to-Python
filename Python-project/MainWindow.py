@@ -88,20 +88,21 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         if event.type() == QtCore.QEvent.HoverMove:
             self._currX = event.pos().x()
             self._currY = event.pos().y()
-            x = self._currX - self._currDX
-            y = self._currY - self._currDY
             # Перемещаем объект
             if self._toMove:
                 # Проверяем, возможно ли переместить объект в текущую позицию.
-                # TODO: Здесь заменить DEFAULTHEIGHT и DEFAULTWIDTH на размеры текущего объекта
+                x = self._currX - self._currDX
+                y = self._currY - self._currDY
+                curr_height = self._currentObj.geometry().height()
+                curr_width = self._currentObj.geometry().width()
                 self._canPlaceObject = True
                 for ob in self._objList:
                     if ob is not self._currentObj: # Не проверять на пересечение с самим собой
                         rect = ob.geometry()
                         if x < MINLEFT or y < MINTOP:
                             self._canPlaceObject = False
-                        if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
-                            and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
+                        if (y + curr_height > rect.y()) and (y < rect.y() + rect.height()) \
+                            and (x + curr_width > rect.x()) and (x < rect.x() + rect.width()):
                             self._canPlaceObject = False
                 if self._canPlaceObject:
                     self._currentObj.move(x, y)
@@ -109,36 +110,58 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
             if self._toResize != DIR["NO"]:
                 # TODO: Здесь проверяем все мозможные направления и вычисляем новые размеры и координаты
                 if self._toResize == DIR["Left"]:
-                    pass
+                    x = self._currX - self._currDX
+                    y = self._currentObj.geometry().y()
+                    height = self._currentObj.geometry().height()
+                    width = 11111
                 if self._toResize == DIR["Right"]:
-                    pass
+                    x = self._currentObj.geometry().x()
+                    y = self._currentObj.geometry().y()
+                    height = self._currentObj.geometry().height()
+                    width = 11111
                 if self._toResize == DIR["Top"]:
-                    pass
+                    x = self._currentObj.geometry().x()
+                    y = self._currY - self._currDY
+                    height = 11111
+                    width = self._currentObj.geometry().width()
                 if self._toResize == DIR["Bottom"]:
-                    pass
+                    x = self._currentObj.geometry().x()
+                    y = self._currentObj.geometry().y()
+                    height = 11111
+                    width = self._currentObj.geometry().width()
                 if self._toResize == DIR["TopLeft"]:
-                    pass
+                    x = self._currX - self._currDX
+                    y = self._currY - self._currDY
+                    height = 11111
+                    width = 11111
                 if self._toResize == DIR["TopRight"]:
-                    pass
+                    x = self._currentObj.geometry().x()
+                    y = self._currY - self._currDY
+                    height = 11111
+                    width = 11111
                 if self._toResize == DIR["BottomLeft"]:
-                    pass
+                    x = 11111
+                    y = self._currentObj.geometry().y()
+                    height = 11111
+                    width = 11111
                 if self._toResize == DIR["BottomRight"]:
-                    pass
+                    x = self._currentObj.geometry().x()
+                    y = self._currentObj.geometry().y()
+                    height = 11111
+                    width = 11111
 
                 # Проверяем, возможно ли изменить объект до указанных размеров.
-                # TODO: Здесь заменить DEFAULTHEIGHT и DEFAULTWIDTH на новые размеры объекта
                 self._canPlaceObject = True
                 for ob in self._objList:
                     if ob is not self._currentObj: # Не проверять на пересечение с самим собой
                         rect = ob.geometry()
                         if x < MINLEFT or y < MINTOP:
                             self._canPlaceObject = False
-                        if (y + DEFAULTHEIGHT > rect.y()) and (y < rect.y() + rect.height()) \
-                            and (x + DEFAULTWIDTH > rect.x()) and (x < rect.x() + rect.width()):
+                        if (y + height > rect.y()) and (y < rect.y() + rect.height()) \
+                            and (x + width > rect.x()) and (x < rect.x() + rect.width()):
                             self._canPlaceObject = False
                 if self._canPlaceObject:
-                    # self._currentObj.setGeometry(x, y, width, height)
-                    pass
+                    self._currentObj.setGeometry(x, y, width, height)
         return QMainWindow.event(self, event)
 
     # Перехватываем события от объектов на форме

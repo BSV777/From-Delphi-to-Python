@@ -4,23 +4,6 @@
 # Сюда перенесены и частично преобразованы из формата Delphi некоторые функции GUI, которые должны быть реализованы в проекте
 
 #
-# const
-#   X0:integer=0
-#   Y0:integer=0
-#   Xk:integer=0
-#   Yk:integer=0
-#   L0:integer=0
-#   T0:integer=0
-#   W0:integer=0
-#   H0:integer=0
-#   Lk:integer=0
-#   Tk:integer=0
-#   Wk:integer=0
-#   Hk:integer=0
-#   Valid:boolean=True
-#
-#
-#
 # FormCreate(Sender: TObject)
 # var i:integer
 # Application.ShowHint = True
@@ -273,41 +256,6 @@
 #
 #
 #
-# Refresh(Sender: TObject)
-# modified  =  True
-# Panel = PanelList.Items[CurrentPanel]
-# with Panel:
-#      if BevelOuter=bvRaised: SgProp.Cells[4, 0] = 'Caption'
-#      if (BevelOuter=bvLowered)or(BevelOuter=bvNone): SgProp.Cells[4, 0] = 'Text'
-#      Top = Tk
-#      Height = Hk
-#      Left = Lk
-#      Width = Wk
-#      SgProp.Cells[0, 1] = IntToStr(Left + SbDesk.HorzScrollBar.Position)
-#      SgProp.Cells[1, 1] = IntToStr(Top + SbDesk.VertScrollBar.Position)
-#      SgProp.Cells[2, 1] = IntToStr(Width)
-#      SgProp.Cells[3, 1] = IntToStr(Height)
-#      SgProp.Cells[4, 1] = Caption
-#      STopLeft.Top = Top-3
-#      STopLeft.Left = Left-3
-#      STopCenter.Top = Top-3
-#      STopCenter.Left = Left + Width div 2 - 2
-#      STopRight.Top = Top-3
-#      STopRight.Left = Left + Width-2
-#      SMiddleLeft.Top = Top + Height div 2 -2
-#      SMiddleLeft.Left = Left-3
-#      SMiddleRight.Top = Top + Height div 2 -2
-#      SMiddleRight.Left = Left + Width-2
-#      SBottomLeft.Top = Top + Height-2
-#      SBottomLeft.Left = Left-3
-#      SBottomCenter.Top = Top + Height-2
-#      SBottomCenter.Left = Left + Width div 2 - 2
-#      SBottomRight.Top = Top + Height-2
-#      SBottomRight.Left = Left + Width-2
-# mnExitClick(Sender: TObject)
-# Close
-#
-#
 # pmDelClick(Sender: TObject)
 # var i:integer
 # Panel = PanelList.Items[CurrentPanel]
@@ -417,9 +365,3 @@
 #      for i = 0 to 4: SgProp.Cells[i, 1] = ''
 #      mnDel.Enabled = False
 #      mnDel.ShortCut = ShortCut(0, [])
-#
-#
-# SgPropClick(Sender: TObject)
-# mnDel.Enabled = False
-# mnDel.ShortCut = ShortCut(0, [])
-#
