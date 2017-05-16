@@ -84,6 +84,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self.setCursor(QtCore.Qt.CrossCursor)
 
     # Перехватываем события формы
+    # -------------------------------------------------------------------------------------------------------
     def event(self, event):
         # Следим за перемещением мыши
         if event.type() == QtCore.QEvent.HoverMove:
@@ -161,37 +162,38 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                         if (y + height > rect.y()) and (y < rect.y() + rect.height()) \
                             and (x + width > rect.x()) and (x < rect.x() + rect.width()):
                             self._canPlaceObject = False
-                if self._canPlaceObject:
+                if self._canPlaceObject and width >= DEFAULTWIDTH and height >= DEFAULTHEIGHT:
                     self._currentObj.move(x, y)
                     self._currentObj.setFixedSize(width, height)
         return QMainWindow.event(self, event)
 
     # Перехватываем события от объектов на форме
+    # -------------------------------------------------------------------------------------------------------
     def eventFilter(self, obj, event):
         if type(obj) is not MainWindow:
             # При первоначальном нажатии на объект запоминаем координаты курсора внутри объекта, чтобы учесть их как смещение
             # Запоминаем данный объект и устанавливаем флаг перемещения
-            if event.type() == QtCore.QEvent.HoverMove:
+            if event.type() == QtCore.QEvent.HoverMove or event.type() == QtCore.QEvent.MouseMove:
                 self.unsetCursor()
                 dy_top = event.pos().y()
                 dy_bottom = obj.geometry().height() - event.pos().y()
                 dx_left = event.pos().x()
                 dx_right = obj.geometry().width() - event.pos().x()
-                if dy_top > 3 and dy_bottom > 3 and dx_left <= 3 and dx_right > 3:
+                if dy_top > 4 and dy_bottom > 4 and dx_left <= 4 and dx_right > 4:
                     self.setCursor(QtCore.Qt.SizeHorCursor)
-                elif dy_top > 3 and dy_bottom > 3 and dx_left > 3 and dx_right <= 3:
+                elif dy_top > 4 and dy_bottom > 4 and dx_left > 4 and dx_right <= 4:
                     self.setCursor(QtCore.Qt.SizeHorCursor)
-                elif dy_top <= 3 and dy_bottom > 3 and dx_left > 3 and dx_right > 3:
+                elif dy_top <= 4 and dy_bottom > 4 and dx_left > 4 and dx_right > 4:
                     self.setCursor(QtCore.Qt.SizeVerCursor)
-                elif dy_top > 3 and dy_bottom <= 3 and dx_left > 3 and dx_right > 3:
+                elif dy_top > 4 and dy_bottom <= 4 and dx_left > 4 and dx_right > 4:
                     self.setCursor(QtCore.Qt.SizeVerCursor)
-                elif dy_top <= 3 and dy_bottom > 3 and dx_left <= 3 and dx_right > 3:
+                elif dy_top <= 4 and dy_bottom > 4 and dx_left <= 4 and dx_right > 4:
                     self.setCursor(QtCore.Qt.SizeFDiagCursor)
-                elif dy_top <= 3 and dy_bottom > 3 and dx_left > 3 and dx_right <= 3:
+                elif dy_top <= 4 and dy_bottom > 4 and dx_left > 4 and dx_right <= 4:
                     self.setCursor(QtCore.Qt.SizeBDiagCursor)
-                elif dy_top > 3 and dy_bottom <= 3 and dx_left <= 3 and dx_right > 3:
+                elif dy_top > 4 and dy_bottom <= 4 and dx_left <= 4 and dx_right > 4:
                     self.setCursor(QtCore.Qt.SizeBDiagCursor)
-                elif dy_top > 3 and dy_bottom <= 3 and dx_left > 3 and dx_right <= 3:
+                elif dy_top > 4 and dy_bottom <= 4 and dx_left > 4 and dx_right <= 4:
                     self.setCursor(QtCore.Qt.SizeFDiagCursor)
 
             if event.type() == QtCore.QEvent.MouseButtonPress and not self._toMove and self._toResize == DIR["NO"]:
@@ -204,29 +206,32 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 dy_bottom = self._currentObj.geometry().height() - self._currDY
                 dx_left = self._currDX
                 dx_right = self._currentObj.geometry().width() - self._currDX
+
+                # self.statusBar().showMessage(str(dy_top) + ":" + str(dy_bottom) + "-" + str(dx_left) + ":" + str(dx_right))  # DEBUG:
+
                 # Условия попадания на границу или в углы и назначение в соответствии направление и тип курсора
-                if dy_top > 3 and dy_bottom > 3 and dx_left <= 3 and dx_right > 3:
+                if dy_top > 4 and dy_bottom > 4 and dx_left <= 4 and dx_right > 4:
                     self._toResize = DIR["Left"]
                     self.setCursor(QtCore.Qt.SizeHorCursor)
-                elif dy_top > 3 and dy_bottom > 3 and dx_left > 3 and dx_right <= 3:
+                elif dy_top > 4 and dy_bottom > 4 and dx_left > 4 and dx_right <= 4:
                     self._toResize = DIR["Right"]
                     self.setCursor(QtCore.Qt.SizeHorCursor)
-                elif dy_top <= 3 and dy_bottom > 3 and dx_left > 3 and dx_right > 3:
+                elif dy_top <= 4 and dy_bottom > 4 and dx_left > 4 and dx_right > 4:
                     self._toResize = DIR["Top"]
                     self.setCursor(QtCore.Qt.SizeVerCursor)
-                elif dy_top > 3 and dy_bottom <= 3 and dx_left > 3 and dx_right > 3:
+                elif dy_top > 4 and dy_bottom <= 4 and dx_left > 4 and dx_right > 4:
                     self._toResize = DIR["Bottom"]
                     self.setCursor(QtCore.Qt.SizeVerCursor)
-                elif dy_top <= 3 and dy_bottom > 3 and dx_left <= 3 and dx_right > 3:
+                elif dy_top <= 4 and dy_bottom > 4 and dx_left <= 4 and dx_right > 4:
                     self._toResize = DIR["TopLeft"]
                     self.setCursor(QtCore.Qt.SizeFDiagCursor)
-                elif dy_top <= 3 and dy_bottom > 3 and dx_left > 3 and dx_right <= 3:
+                elif dy_top <= 4 and dy_bottom > 4 and dx_left > 4 and dx_right <= 4:
                     self._toResize = DIR["TopRight"]
                     self.setCursor(QtCore.Qt.SizeBDiagCursor)
-                elif dy_top > 3 and dy_bottom <= 3 and dx_left <= 3 and dx_right > 3:
+                elif dy_top > 4 and dy_bottom <= 4 and dx_left <= 4 and dx_right > 4:
                     self._toResize = DIR["BottomLeft"]
                     self.setCursor(QtCore.Qt.SizeBDiagCursor)
-                elif dy_top > 3 and dy_bottom <= 3 and dx_left > 3 and dx_right <= 3:
+                elif dy_top > 4 and dy_bottom <= 4 and dx_left > 4 and dx_right <= 4:
                     self._toResize = DIR["BottomRight"]
                     self.setCursor(QtCore.Qt.SizeFDiagCursor)
                 else:
@@ -242,6 +247,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 self._newOperation = 0
         return False
 
+    # -------------------------------------------------------------------------------------------------------
     def mousePressEvent(self, event):
         x = event.x()
         y = event.y()
@@ -260,6 +266,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 self._objList[-1].installEventFilter(self)
                 self._objList[-1].move(event.x(), event.y())
                 self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+                # self._objList[-1].setMouseTracking(True)
                 self._objList[-1].show()
                 self._modified = True
             elif self._newOperation == TYP["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
@@ -267,6 +274,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 self._objList[-1].installEventFilter(self)
                 self._objList[-1].move(event.x(), event.y())
                 self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+                self._objList[-1].setMouseTracking(True)
                 self._objList[-1].show()
                 self._modified = True
             elif self._newOperation == TYP["Label"]:  # Создали объект надпись, экземпляр класса QLabel
@@ -274,6 +282,8 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 self._objList[-1].installEventFilter(self)
                 self._objList[-1].move(event.x(), event.y())
                 self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
+                self._objList[-1].setStyleSheet('border-style: dotted; border-width: 1px; border-color: gray;')
+                self._objList[-1].setMouseTracking(True)
                 self._objList[-1].show()
                 self._modified = True
         return QMainWindow.mousePressEvent(self, event)
