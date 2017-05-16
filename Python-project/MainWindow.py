@@ -12,6 +12,13 @@ import mBaseWindow  # Импортируем базовую форму, нари
 import mParserTextFile
 import mWriteHTMLFile
 
+# TODO: Решить проблему с обработкой событий в Edit
+# TODO: Отладить смену типов курсора
+# TODO: Реализовать удаление объектов
+# TODO: Реализовать обработку события - "завершение программы"
+# TODO: Реализовать панель редактирования свойств объектов
+# TODO: При завершении программы - проверить существование файла editor_py_tmp.htm и удалить
+# TODO: Реализовать скроллинг рабочей области - QScrollArea (возможно в UI)
 # TODO: Сделать совместимым с Python 3 и Qt 5
 
 MINHEIGHT = 21
@@ -25,7 +32,6 @@ DIR = {"NO": 0, "Left": 1, "Right": 2, "Top": 3, "Bottom": 4, "TopLeft": 5, "Top
 MINTOP = 65
 MINLEFT = 1
 
-# TODO: Реализовать удаление объектов и скроллинг рабочей области
 
 # Класс MainWindow, унаследованный от QMainWindow и Ui_BaseWindow - из дизайнера
 class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
@@ -47,19 +53,6 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
 
     # Внутренние процедуры класса
     # ------------------------------------------------------------------------------
-    # TODO: Создать QScrollArea (возможно в UI)
-    # ------------------------------------------------------------------------------
-
-    # Использовать типы курсора
-    # PointingHandCursor  # Курсор указывающий на объект
-    # OpenHandCursor      # Курсор перед перемещением
-    # ClosedHandCursor    # Курсор при перемещении
-    # SizeVerCursor       # Курсор при изменении высоты
-    # SizeHorCursor       # Курсор при изменении ширины
-    # SizeBDiagCursor     # Курсор при изменении высоты и ширины - вторичная диагональ
-    # SizeFDiagCursor     # Курсор при изменении - главная диагональ
-    # ForbiddenCursor     # Курсор при невозможности помещения объекта в текущую позицию
-
     def _select(self):
         self.statusBar().showMessage(u"Выберите объект для редактирования")
         self._newOperation = 0
