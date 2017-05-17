@@ -12,6 +12,8 @@ import mBaseWindow  # Импортируем базовую форму, нари
 import mParserTextFile
 import mWriteHTMLFile
 
+import mPropWindow
+
 # TODO: Решить проблему с обработкой событий в Edit
 # TODO: Отладить смену типов курсора
 # TODO: Реализовать удаление объектов
@@ -57,6 +59,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self.statusBar().showMessage(u"Выберите объект для редактирования")
         self._newOperation = 0
         self.unsetCursor()
+        self.prop.show()
 
     def _createbt(self):
         self.statusBar().showMessage(u"Кликните на поле, чтобы создать PushButton")
@@ -565,6 +568,11 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         toolbar.addAction(self.a_createlb)  # Кнопка тулбара
         # ------------------------------------------------------------------------------
         self.installEventFilter(self)
+
+        self.prop = mPropWindow.PropWindow()
+        self.prop.move(1000, 500)
+        self.prop.show()
+
         self.statusBar().showMessage(u"Готов")  # Первоначальная надпись в строке статуса
 
 
