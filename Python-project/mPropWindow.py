@@ -29,7 +29,7 @@ class PropWindow(QWidget):
 
 
 if __name__ == "__main__":
-    app = QApplication([])  # Создаем объект app (приложение) - экземпляр класса QApplication
-    test = PropWindow()  # Создаем объект MainForm - экземпляр класса MainWindow()
-    test.show()  # Отображаем окно
-    app.exec_()  # Запускаем цикл обработки событий объекта app (приложение)
+    app = QApplication([])
+    test = PropWindow()
+    test.show()
+    app.exec_()

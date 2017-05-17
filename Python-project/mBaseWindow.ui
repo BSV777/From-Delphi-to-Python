@@ -47,6 +47,8 @@
     <addaction name="a_createlb"/>
     <addaction name="separator"/>
     <addaction name="a_delobj"/>
+    <addaction name="separator"/>
+    <addaction name="a_prop"/>
    </widget>
    <widget class="QMenu" name="m_help">
     <property name="title">
@@ -171,6 +173,16 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionErerere">
+   <property name="text">
+    <string>ererere</string>
+   </property>
+  </action>
+  <action name="a_prop">
+   <property name="text">
+    <string>Свойства</string>
    </property>
   </action>
  </widget>

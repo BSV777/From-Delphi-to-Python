@@ -59,7 +59,6 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self.statusBar().showMessage(u"Выберите объект для редактирования")
         self._newOperation = 0
         self.unsetCursor()
-        self.prop.show()
 
     def _createbt(self):
         self.statusBar().showMessage(u"Кликните на поле, чтобы создать PushButton")
@@ -78,6 +77,9 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self._newOperation = TYP["Label"]
         self.setMouseTracking(True)
         self.setCursor(QtCore.Qt.CrossCursor)
+
+    def _prop(self):
+        self.prop.show()
 
     # Перехватываем события формы
     # -------------------------------------------------------------------------------------------------------
@@ -554,6 +556,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self.a_createed.triggered.connect(self._createed)
         self.a_createlb.triggered.connect(self._createlb)
         self.a_delobj.triggered.connect(self._delobj)
+        self.a_prop.triggered.connect(self._prop)
         self.a_about.triggered.connect(self._about)
 
         # Создание тулбара
@@ -570,8 +573,6 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
         self.installEventFilter(self)
 
         self.prop = mPropWindow.PropWindow()
-        self.prop.move(1000, 500)
-        self.prop.show()
 
         self.statusBar().showMessage(u"Готов")  # Первоначальная надпись в строке статуса
 
