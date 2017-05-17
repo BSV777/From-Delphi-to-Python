@@ -268,6 +268,8 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 self._objList[-1].move(event.x(), event.y())
                 self._objList[-1].setFixedSize(DEFAULTWIDTH, DEFAULTHEIGHT)
                 self._objList[-1].setMouseTracking(True)
+                #self._objList[-1].setFocusPolicy(Qt.NoFocus)
+                #self._objList[-1].setReadOnly(True)
                 self._objList[-1].show()
                 self._modified = True
             elif self._newOperation == TYP["Label"]:  # Создали объект надпись, экземпляр класса QLabel
@@ -361,10 +363,19 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 for i in range(len(array)):
                     if array[i]["typ"] == TYP["Button"]:  # Создали объект кнопка, экземпляр класса QPushButton
                         self._objList.append(QtGui.QPushButton(array[i]["text"], self))
+                        self._objList[-1].installEventFilter(self)
+                        #self._objList[-1].setMouseTracking(True)
                     elif array[i]["typ"] == TYP["TextEdit"]:  # Создали объект поле ввода, экземпляр класса QLineEdit
                         self._objList.append(QtGui.QLineEdit(array[i]["text"], self))
+                        self._objList[-1].installEventFilter(self)
+                        self._objList[-1].setMouseTracking(True)
+                        # self._objList[-1].setFocusPolicy(Qt.NoFocus)
+                        # self._objList[-1].setReadOnly(True)
                     elif array[i]["typ"] == TYP["Label"]:  # Создали объект надпись, экземпляр класса QLabel
                         self._objList.append(QtGui.QLabel(array[i]["text"], self))
+                        self._objList[-1].installEventFilter(self)
+                        self._objList[-1].setMouseTracking(True)
+                        self._objList[-1].setStyleSheet('border-style: dotted; border-width: 1px; border-color: gray;')
                     self._objList[-1].move(MINLEFT + array[i]["left"], MINTOP + array[i]["top"])
                     self._objList[-1].setFixedSize(array[i]["width"], array[i]["height"])
                     self._objList[-1].show()
