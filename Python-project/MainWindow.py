@@ -106,6 +106,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                             self._canPlaceObject = False
                 if self._canPlaceObject:
                     self._currentObj.move(x, y)
+                    self._modified = True
             # Масштабируем объект
             if self._toResize != DIR["NO"]:
                 # Проверяем все возможные направления и вычисляем новые размеры и координаты
@@ -163,6 +164,7 @@ class MainWindow(QMainWindow, mBaseWindow.Ui_BaseWindow):
                 if self._canPlaceObject and width >= DEFAULTWIDTH and height >= DEFAULTHEIGHT:
                     self._currentObj.move(x, y)
                     self._currentObj.setFixedSize(width, height)
+                    self._modified = True
         return QMainWindow.event(self, event)
 
     # Перехватываем события от объектов на форме
